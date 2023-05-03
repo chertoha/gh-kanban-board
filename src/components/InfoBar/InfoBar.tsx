@@ -5,7 +5,7 @@ import { FC } from "react";
 
 const InfoBar: FC = () => {
   return (
-    <Space direction="horizontal" style={{ padding: "20px 0" }}>
+    <Space direction="horizontal" style={{ padding: "10px 0 20px" }}>
       <Link href="">Facebook</Link>
       <RightOutlined style={{ fontSize: "12px", color: "#0958d9" }} />
       <Link href="">React</Link>

@@ -1,18 +1,18 @@
 import { Col, Row } from "antd";
+import CardList from "components/CardList";
 import { FC } from "react";
-import style from "./KanbanBoard.module.css";
 
 const KanbanBoard: FC = () => {
   return (
     <Row style={{ boxSizing: "border-box" }} gutter={32}>
       <Col span={8}>
-        <div className={style.column}>To Do</div>
+        <CardList />
       </Col>
       <Col span={8}>
-        <div className={style.column}>In progress</div>
+        <CardList />
       </Col>
       <Col span={8}>
-        <div className={style.column}>Done</div>
+        <CardList />
       </Col>
     </Row>
   );
