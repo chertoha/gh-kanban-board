@@ -1,9 +1,8 @@
-import React from "react";
-import logo from "./logo.svg";
+import { FC } from "react";
+import Home from "components/Home";
 
-function App() {
-  return <div>GH kanban board</div>;
-}
+const App: FC = () => {
+  return <Home />;
+};
 
 export default App;
-// asd
