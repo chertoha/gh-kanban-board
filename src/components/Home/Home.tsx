@@ -8,6 +8,7 @@ const Home: FC = () => {
   return (
     <main>
       <h1 hidden>Github issues kanban board</h1>
+
       <Row justify="center">
         <Col span="16">
           <SearchBar />
