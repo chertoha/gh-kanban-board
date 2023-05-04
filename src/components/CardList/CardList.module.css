@@ -1,11 +1,24 @@
 .column {
-  list-style: none;
-  margin: 0;
-
-  padding: 10px 16px;
-  min-height: 600px;
+  padding: 16px 16px;
+  height: 800px;
 
   background-color: rgb(247, 241, 241);
   border: 6px solid rgb(130, 127, 127);
   border-radius: 15px;
+}
+
+.column__list {
+  height: 100%;
+  padding-right: 16px;
+  overflow-y: auto;
+}
+
+.column__list::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+
+.column__list::-webkit-scrollbar-thumb {
+  background-color: rgb(160, 159, 159);
+  border-radius: 4px;
 }

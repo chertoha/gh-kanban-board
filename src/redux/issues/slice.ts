@@ -1,11 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { Issue } from "types/types";
-import {
-  todoListInit,
-  inProgressListInit,
-  doneListInit,
-} from "utils/tempInitialState";
 
 interface IDesksState {
   todoList: Issue[];
@@ -14,9 +9,9 @@ interface IDesksState {
 }
 
 const initialState: IDesksState = {
-  todoList: todoListInit,
-  inProgressList: inProgressListInit,
-  doneList: doneListInit,
+  todoList: [],
+  inProgressList: [],
+  doneList: [],
 };
 
 export const issuesSlice = createSlice({
