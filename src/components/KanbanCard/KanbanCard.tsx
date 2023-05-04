@@ -48,7 +48,7 @@ const KanbanCard: FC<KanbanCardProps> = ({ issue }) => {
       title={title}
       size="small"
       headStyle={{ borderBottom: "none" }}
-      style={{ width: "100%", cursor: "grab" }}
+      style={{ width: "100%", cursor: "grab", border: "3px solid #000" }}
     >
       <Paragraph>
         #{number} {created_at}
