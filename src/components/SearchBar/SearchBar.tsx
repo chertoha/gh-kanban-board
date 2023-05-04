@@ -11,28 +11,30 @@ const SearchBar: FC = () => {
   };
 
   return (
-    <Form
-      name="basic"
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-    >
-      <Row gutter={16}>
-        <Col flex="auto">
-          <Form.Item style={{ margin: 0 }}>
-            <Input placeholder="Enter repo URL" />
-          </Form.Item>
-        </Col>
-        <Col>
-          <Form.Item style={{ margin: 0 }}>
-            <Button type="default" htmlType="submit">
-              Load issues
-            </Button>
-          </Form.Item>
-        </Col>
-      </Row>
-    </Form>
+    <section style={{ padding: "40px 0 10px" }}>
+      <Form
+        name="basic"
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        <Row gutter={16}>
+          <Col flex="auto">
+            <Form.Item style={{ margin: 0 }}>
+              <Input placeholder="Enter repo URL" />
+            </Form.Item>
+          </Col>
+          <Col>
+            <Form.Item style={{ margin: 0 }}>
+              <Button type="default" htmlType="submit">
+                Load issues
+              </Button>
+            </Form.Item>
+          </Col>
+        </Row>
+      </Form>
+    </section>
   );
 };
 
