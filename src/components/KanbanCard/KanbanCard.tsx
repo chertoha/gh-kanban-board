@@ -3,11 +3,11 @@ import Paragraph from "antd/es/typography/Paragraph";
 import { DragEvent, FC, useState } from "react";
 import { Issue } from "types/types";
 
-interface KanbanCardProps {
+interface IKanbanCardProps {
   issue: Issue;
 }
 
-const KanbanCard: FC<KanbanCardProps> = ({ issue }) => {
+const KanbanCard: FC<IKanbanCardProps> = ({ issue }) => {
   const {
     title,
     number,
