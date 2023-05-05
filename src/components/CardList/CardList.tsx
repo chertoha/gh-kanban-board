@@ -1,6 +1,6 @@
 import { List } from "antd";
 import KanbanCard from "components/KanbanCard";
-import { FC } from "react";
+import { DragEvent, FC } from "react";
 import { Issue } from "types/types";
 import style from "./CardList.module.css";
 
@@ -9,13 +9,42 @@ interface ICardListProps {
 }
 
 const CardList: FC<ICardListProps> = ({ list }) => {
+  const dragStartHandler = (e: DragEvent<HTMLDivElement>, card: Issue) => {
+    //
+  };
+
+  const dragLeaveHandler = (e: DragEvent<HTMLDivElement>) => {
+    e.currentTarget.style.borderBottom = "none";
+  };
+
+  const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {
+    e.currentTarget.style.borderBottom = "none";
+  };
+
+  const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.currentTarget.style.borderBottom = "3px solid gray";
+  };
+
+  const dropHandler = (e: DragEvent<HTMLDivElement>, card: Issue) => {
+    e.preventDefault();
+  };
+
   return (
     <div className={style.column}>
       <List
         className={style.column__list}
         dataSource={list}
         renderItem={(issue) => (
-          <List.Item style={{ border: "none" }}>
+          <List.Item
+            style={{ border: "none" }}
+            draggable={true}
+            onDragStart={(e) => dragStartHandler(e, issue)}
+            onDragLeave={(e) => dragLeaveHandler(e)}
+            onDragEnd={(e) => dragEndHandler(e)}
+            onDragOver={(e) => dragOverHandler(e)}
+            onDrop={(e) => dropHandler(e, issue)}
+          >
             <KanbanCard issue={issue} />
           </List.Item>
         )}

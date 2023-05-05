@@ -31,13 +31,13 @@ const KanbanBoard: FC = () => {
     try {
       setTimeout(() => {
         dispatch(updateTodoList(todoListInit));
-      }, 1000);
+      }, 500);
       setTimeout(() => {
         dispatch(updateInProgressList(inProgressListInit));
-      }, 2000);
+      }, 1000);
       setTimeout(() => {
         dispatch(updateDoneList(doneListInit));
-      }, 3000);
+      }, 1500);
     } catch (err) {
       console.log(err);
     }
