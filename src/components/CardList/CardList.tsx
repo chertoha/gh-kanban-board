@@ -14,16 +14,20 @@ const CardList: FC<ICardListProps> = ({ list }) => {
   };
 
   const dragLeaveHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.currentTarget.style.borderBottom = "none";
+    // e.currentTarget.style.borderBottom = "none";
+    e.currentTarget.style.marginBottom = "0";
   };
 
   const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.currentTarget.style.borderBottom = "none";
+    // e.currentTarget.style.borderBottom = "none";
+    e.currentTarget.style.marginBottom = "0";
   };
 
   const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.currentTarget.style.borderBottom = "3px solid gray";
+    // e.currentTarget.style.borderBottom = "3px solid gray";
+    // e.currentTarget.classList.add("hovered-item");
+    e.currentTarget.style.marginBottom = "30px";
   };
 
   const dropHandler = (e: DragEvent<HTMLDivElement>, card: Issue) => {
