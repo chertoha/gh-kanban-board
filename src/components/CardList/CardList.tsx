@@ -1,37 +1,76 @@
-import { List } from "antd";
 import KanbanCard from "components/KanbanCard";
-import { DragEvent, FC } from "react";
-import { Issue } from "types/types";
 import style from "./CardList.module.css";
+import { List } from "antd";
+import { Dispatch, DragEvent, FC, SetStateAction } from "react";
+import { Issue } from "types/types";
+import { CommonIssuesActionsCreatorType } from "redux/issues/slice";
+import { useAppDispatch } from "hooks/hooks";
 
 interface ICardListProps {
   list: Issue[];
+  currentCardState: [Issue | null, Dispatch<SetStateAction<Issue | null>>];
+  updateList: CommonIssuesActionsCreatorType;
 }
 
-const CardList: FC<ICardListProps> = ({ list }) => {
-  const dragStartHandler = (e: DragEvent<HTMLDivElement>, card: Issue) => {
+const CardList: FC<ICardListProps> = ({
+  list,
+  currentCardState: [currentCard, setCurrentCard],
+  updateList,
+}) => {
+  const dispatch = useAppDispatch();
+
+  const dragStartHandler = (
+    e: DragEvent<HTMLDivElement>,
+    card: Issue,
+    list: Issue[]
+  ) => {
     //
+    console.log(list);
+    console.log(card);
+    setCurrentCard(card);
+
+    const chosenCardIndex = list.findIndex(({ id }) => id === card.id);
+    const updatedList = [...list];
+    updatedList.splice(chosenCardIndex, 1);
+    console.log(updatedList);
+    dispatch(updateList(updatedList));
   };
 
-  const dragLeaveHandler = (e: DragEvent<HTMLDivElement>) => {
-    // e.currentTarget.style.borderBottom = "none";
-    e.currentTarget.style.marginBottom = "0";
+  const dragLeaveHandler = (e: DragEvent<HTMLDivElement>): void => {
+    // e.currentTarget.style.marginBottom = "0";
+    e.currentTarget.style.borderBottom = "none";
   };
 
   const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {
-    // e.currentTarget.style.borderBottom = "none";
-    e.currentTarget.style.marginBottom = "0";
+    // e.currentTarget.style.marginBottom = "0";
+    e.currentTarget.style.borderBottom = "none";
   };
 
   const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    // e.currentTarget.style.borderBottom = "3px solid gray";
-    // e.currentTarget.classList.add("hovered-item");
-    e.currentTarget.style.marginBottom = "30px";
+    // e.currentTarget.style.marginBottom = "80px";
+    e.currentTarget.style.borderBottom = "4px solid gray";
   };
 
-  const dropHandler = (e: DragEvent<HTMLDivElement>, card: Issue) => {
+  const dropHandler = (
+    e: DragEvent<HTMLDivElement>,
+    card: Issue,
+    list: Issue[]
+  ) => {
     e.preventDefault();
+
+    if (currentCard === null) return;
+
+    e.currentTarget.style.borderBottom = "none";
+    console.log(list);
+    console.log(card);
+    const chosenCardIndex = list.findIndex(({ id }) => id === card.id);
+    // console.log(chosenCardIndex);
+    const updatedList = [...list];
+    updatedList.splice(chosenCardIndex + 1, 0, currentCard);
+    // console.log(updatedList);
+    dispatch(updateList(updatedList));
+    setCurrentCard(null);
   };
 
   return (
@@ -43,11 +82,11 @@ const CardList: FC<ICardListProps> = ({ list }) => {
           <List.Item
             style={{ border: "none" }}
             draggable={true}
-            onDragStart={(e) => dragStartHandler(e, issue)}
+            onDragStart={(e) => dragStartHandler(e, issue, list)}
             onDragLeave={(e) => dragLeaveHandler(e)}
             onDragEnd={(e) => dragEndHandler(e)}
             onDragOver={(e) => dragOverHandler(e)}
-            onDrop={(e) => dropHandler(e, issue)}
+            onDrop={(e) => dropHandler(e, issue, list)}
           >
             <KanbanCard issue={issue} />
           </List.Item>

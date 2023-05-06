@@ -3,6 +3,7 @@ export type User = {
 };
 
 export type Issue = {
+  id: number | string;
   title: string;
   number: number;
   created_at: string;

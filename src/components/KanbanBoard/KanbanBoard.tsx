@@ -1,7 +1,7 @@
 import { Col, Row } from "antd";
 import CardList from "components/CardList";
 import { useAppDispatch, useAppSelector } from "hooks/hooks";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   selectDoneList,
   selectInProgressList,
@@ -26,18 +26,20 @@ const KanbanBoard: FC = () => {
   const inProgressList: Issue[] = useAppSelector(selectInProgressList);
   const doneList: Issue[] = useAppSelector(selectDoneList);
 
+  const currentCardState = useState<Issue | null>(null);
+
   useEffect(() => {
     console.log("onMount");
     try {
       setTimeout(() => {
         dispatch(updateTodoList(todoListInit));
-      }, 500);
+      }, 100);
       setTimeout(() => {
         dispatch(updateInProgressList(inProgressListInit));
-      }, 1000);
+      }, 200);
       setTimeout(() => {
         dispatch(updateDoneList(doneListInit));
-      }, 1500);
+      }, 300);
     } catch (err) {
       console.log(err);
     }
@@ -46,13 +48,25 @@ const KanbanBoard: FC = () => {
   return (
     <Row style={{ boxSizing: "border-box" }} gutter={32}>
       <Col span={8}>
-        <CardList list={todoList} />
+        <CardList
+          list={todoList}
+          currentCardState={currentCardState}
+          updateList={updateTodoList}
+        />
       </Col>
       <Col span={8}>
-        <CardList list={inProgressList} />
+        <CardList
+          list={inProgressList}
+          currentCardState={currentCardState}
+          updateList={updateInProgressList}
+        />
       </Col>
       <Col span={8}>
-        <CardList list={doneList} />
+        <CardList
+          list={doneList}
+          currentCardState={currentCardState}
+          updateList={updateDoneList}
+        />
       </Col>
     </Row>
   );

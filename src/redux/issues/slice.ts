@@ -37,4 +37,9 @@ export const issuesSlice = createSlice({
 export const { updateTodoList, updateInProgressList, updateDoneList } =
   issuesSlice.actions;
 
+export type CommonIssuesActionsCreatorType =
+  | typeof updateTodoList
+  | typeof updateInProgressList
+  | typeof updateDoneList;
+
 export default issuesSlice.reducer;
