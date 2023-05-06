@@ -18,19 +18,24 @@ const KanbanCard: FC<IKanbanCardProps> = ({ issue }) => {
 
   // const [currentCard, setCurrentCard] = useState(null);
 
-  // const dragStartHandler = (e: DragEvent<HTMLDivElement>, card: Issue) => {};
+  // const dragStartHandler = (e: DragEvent<HTMLDivElement>, card: Issue) => {
+  //   //
+  // };
 
   // const dragLeaveHandler = (e: DragEvent<HTMLDivElement>) => {
-  //   e.currentTarget.style.borderBottom = "none";
+  //   // e.currentTarget.style.borderBottom = "none";
+  //   e.currentTarget.style.marginBottom = "0";
   // };
 
   // const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {
-  //   e.currentTarget.style.borderBottom = "none";
+  //   // e.currentTarget.style.borderBottom = "none";
+  //   e.currentTarget.style.marginBottom = "0";
   // };
 
   // const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
   //   e.preventDefault();
-  //   e.currentTarget.style.borderBottom = "3px solid gray";
+  //   // e.currentTarget.style.borderBottom = "3px solid gray";
+  //   e.currentTarget.style.marginBottom = "100px";
   // };
 
   // const dropHandler = (e: DragEvent<HTMLDivElement>, card: Issue) => {

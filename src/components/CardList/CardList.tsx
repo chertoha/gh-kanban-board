@@ -25,31 +25,35 @@ const CardList: FC<ICardListProps> = ({
     list: Issue[]
   ) => {
     //
-    console.log(list);
-    console.log(card);
+    // console.log(list);
+    // console.log(card);
     setCurrentCard(card);
 
     const chosenCardIndex = list.findIndex(({ id }) => id === card.id);
     const updatedList = [...list];
     updatedList.splice(chosenCardIndex, 1);
-    console.log(updatedList);
+    // console.log(updatedList);
     dispatch(updateList(updatedList));
   };
 
   const dragLeaveHandler = (e: DragEvent<HTMLDivElement>): void => {
-    // e.currentTarget.style.marginBottom = "0";
-    e.currentTarget.style.borderBottom = "none";
+    // e.currentTarget.style.borderBottom = "none";
+
+    e.currentTarget.style.marginBottom = "0";
+
+    // console.log(currentOverCard);
   };
 
   const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {
-    // e.currentTarget.style.marginBottom = "0";
-    e.currentTarget.style.borderBottom = "none";
+    e.currentTarget.style.marginBottom = "0";
+    // e.currentTarget.style.borderBottom = "none";
   };
 
   const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    // e.currentTarget.style.marginBottom = "80px";
-    e.currentTarget.style.borderBottom = "4px solid gray";
+    e.currentTarget.style.marginBottom = "80px";
+    // e.currentTarget.style.borderBottom = "4px solid gray";
+    // console.log("over", card);
   };
 
   const dropHandler = (
@@ -61,9 +65,9 @@ const CardList: FC<ICardListProps> = ({
 
     if (currentCard === null) return;
 
-    e.currentTarget.style.borderBottom = "none";
-    console.log(list);
-    console.log(card);
+    e.currentTarget.style.borderBottom = "0";
+    // console.log(list);
+    // console.log(card);
     const chosenCardIndex = list.findIndex(({ id }) => id === card.id);
     // console.log(chosenCardIndex);
     const updatedList = [...list];

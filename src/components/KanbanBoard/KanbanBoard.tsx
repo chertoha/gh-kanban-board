@@ -27,6 +27,7 @@ const KanbanBoard: FC = () => {
   const doneList: Issue[] = useAppSelector(selectDoneList);
 
   const currentCardState = useState<Issue | null>(null);
+  // const currentListState = useState<Issue[] | null>(null);
 
   useEffect(() => {
     console.log("onMount");
