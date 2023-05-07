@@ -5,17 +5,23 @@ import { Dispatch, DragEvent, FC, SetStateAction } from "react";
 import { Issue } from "types/types";
 import { CommonIssuesActionsCreatorType } from "redux/issues/slice";
 import { useAppDispatch } from "hooks/hooks";
+import { ICurrentListState } from "components/KanbanBoard/KanbanBoard";
 
 interface ICardListProps {
   list: Issue[];
   currentCardState: [Issue | null, Dispatch<SetStateAction<Issue | null>>];
   updateList: CommonIssuesActionsCreatorType;
+  currentListState: [
+    ICurrentListState,
+    Dispatch<SetStateAction<ICurrentListState>>
+  ];
 }
 
 const CardList: FC<ICardListProps> = ({
   list,
   currentCardState: [currentCard, setCurrentCard],
   updateList,
+  currentListState: [{ currentList, updateCurrentList }, setCurrentListState],
 }) => {
   const dispatch = useAppDispatch();
 
@@ -24,36 +30,29 @@ const CardList: FC<ICardListProps> = ({
     card: Issue,
     list: Issue[]
   ) => {
-    //
-    // console.log(list);
-    // console.log(card);
     setCurrentCard(card);
+    setCurrentListState({ currentList: list, updateCurrentList: updateList });
 
-    const chosenCardIndex = list.findIndex(({ id }) => id === card.id);
-    const updatedList = [...list];
-    updatedList.splice(chosenCardIndex, 1);
-    // console.log(updatedList);
-    dispatch(updateList(updatedList));
+    // const chosenCardIndex = list.findIndex(({ id }) => id === card.id);
+    // const updatedList = [...list];
+    // updatedList.splice(chosenCardIndex, 1);
+    // dispatch(updateList(updatedList));
   };
 
   const dragLeaveHandler = (e: DragEvent<HTMLDivElement>): void => {
-    // e.currentTarget.style.borderBottom = "none";
-
-    e.currentTarget.style.marginBottom = "0";
-
-    // console.log(currentOverCard);
+    e.currentTarget.style.borderBottom = "none";
+    // e.currentTarget.style.marginBottom = "0";
   };
 
   const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.currentTarget.style.marginBottom = "0";
-    // e.currentTarget.style.borderBottom = "none";
+    // e.currentTarget.style.marginBottom = "0";
+    e.currentTarget.style.borderBottom = "none";
   };
 
   const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.currentTarget.style.marginBottom = "80px";
-    // e.currentTarget.style.borderBottom = "4px solid gray";
-    // console.log("over", card);
+    // e.currentTarget.style.marginBottom = "80px";
+    e.currentTarget.style.borderBottom = "4px solid gray";
   };
 
   const dropHandler = (
@@ -63,18 +62,30 @@ const CardList: FC<ICardListProps> = ({
   ) => {
     e.preventDefault();
 
-    if (currentCard === null) return;
+    if (!currentCard) return;
+    if (!currentList || !updateCurrentList) return;
 
     e.currentTarget.style.borderBottom = "0";
-    // console.log(list);
-    // console.log(card);
+
+    // if (list === currentList) {
+
+    // }
+
+    // add card to a new list
     const chosenCardIndex = list.findIndex(({ id }) => id === card.id);
-    // console.log(chosenCardIndex);
     const updatedList = [...list];
     updatedList.splice(chosenCardIndex + 1, 0, currentCard);
-    // console.log(updatedList);
     dispatch(updateList(updatedList));
     setCurrentCard(null);
+
+    // remove card from it's old list
+    const oldListCardIndex = currentList.findIndex(
+      ({ id }) => id === currentCard.id
+    );
+    const updatedOldList = [...currentList];
+    updatedOldList.splice(oldListCardIndex, 1);
+    dispatch(updateCurrentList(updatedOldList));
+    setCurrentListState({ currentList: null, updateCurrentList: null });
   };
 
   return (

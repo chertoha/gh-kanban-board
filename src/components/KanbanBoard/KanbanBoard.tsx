@@ -1,5 +1,5 @@
-import { Col, Row } from "antd";
 import CardList from "components/CardList";
+import { Col, Row } from "antd";
 import { useAppDispatch, useAppSelector } from "hooks/hooks";
 import { FC, useEffect, useState } from "react";
 import {
@@ -12,12 +12,18 @@ import {
   updateTodoList,
   updateInProgressList,
   updateDoneList,
+  CommonIssuesActionsCreatorType,
 } from "redux/issues/slice";
 import {
   todoListInit,
   inProgressListInit,
   doneListInit,
 } from "utils/tempInitialState";
+
+export interface ICurrentListState {
+  currentList: Issue[] | null;
+  updateCurrentList: CommonIssuesActionsCreatorType | null;
+}
 
 const KanbanBoard: FC = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +33,10 @@ const KanbanBoard: FC = () => {
   const doneList: Issue[] = useAppSelector(selectDoneList);
 
   const currentCardState = useState<Issue | null>(null);
-  // const currentListState = useState<Issue[] | null>(null);
+  const currentListState = useState<ICurrentListState>({
+    currentList: null,
+    updateCurrentList: null,
+  });
 
   useEffect(() => {
     console.log("onMount");
@@ -53,6 +62,7 @@ const KanbanBoard: FC = () => {
           list={todoList}
           currentCardState={currentCardState}
           updateList={updateTodoList}
+          currentListState={currentListState}
         />
       </Col>
       <Col span={8}>
@@ -60,6 +70,7 @@ const KanbanBoard: FC = () => {
           list={inProgressList}
           currentCardState={currentCardState}
           updateList={updateInProgressList}
+          currentListState={currentListState}
         />
       </Col>
       <Col span={8}>
@@ -67,6 +78,7 @@ const KanbanBoard: FC = () => {
           list={doneList}
           currentCardState={currentCardState}
           updateList={updateDoneList}
+          currentListState={currentListState}
         />
       </Col>
     </Row>
