@@ -1,7 +1,7 @@
 import KanbanCard from "components/KanbanCard";
 import style from "./CardList.module.css";
 import { List } from "antd";
-import { Dispatch, DragEvent, FC, SetStateAction, useRef } from "react";
+import { Dispatch, DragEvent, FC, SetStateAction } from "react";
 import { Issue } from "types/types";
 import { CommonIssuesActionsCreatorType } from "redux/issues/slice";
 import { useAppDispatch } from "hooks/hooks";
@@ -104,13 +104,6 @@ const CardList: FC<ICardListProps> = ({
   const onZeroItemLeaveHandler = (e: DragEvent<HTMLDivElement>) => {
     e.currentTarget.style.borderBottom = "none";
   };
-  // const onZeroItemDropHandler = (
-  //   e: DragEvent<HTMLDivElement>,
-  //   list: Issue[]
-  // ) => {
-  //   e.preventDefault();
-  //   e.currentTarget.style.borderBottom = "none";
-  // };
 
   return (
     <div className={style.column}>
