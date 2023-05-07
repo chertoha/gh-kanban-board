@@ -1,7 +1,7 @@
 import CardList from "components/CardList";
 import { Col, Row } from "antd";
 import { useAppDispatch, useAppSelector } from "hooks/hooks";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import {
   selectDoneList,
   selectInProgressList,
@@ -38,8 +38,20 @@ const KanbanBoard: FC = () => {
     updateCurrentList: null,
   });
 
+  const chosenCardRef = useRef<HTMLDivElement | null>(null);
+
+  const setChosenCard = (card: HTMLDivElement | null) => {
+    if (card === null) {
+      if (!chosenCardRef.current) return;
+      chosenCardRef.current.style.backgroundColor = "inherit";
+      chosenCardRef.current = null;
+      return;
+    }
+    chosenCardRef.current = card;
+    chosenCardRef.current.style.backgroundColor = "#ada89f";
+  };
+
   useEffect(() => {
-    console.log("onMount");
     try {
       setTimeout(() => {
         dispatch(updateTodoList(todoListInit));
@@ -63,6 +75,7 @@ const KanbanBoard: FC = () => {
           currentCardState={currentCardState}
           updateList={updateTodoList}
           currentListState={currentListState}
+          setChosenCard={setChosenCard}
         />
       </Col>
       <Col span={8}>
@@ -71,6 +84,7 @@ const KanbanBoard: FC = () => {
           currentCardState={currentCardState}
           updateList={updateInProgressList}
           currentListState={currentListState}
+          setChosenCard={setChosenCard}
         />
       </Col>
       <Col span={8}>
@@ -79,6 +93,7 @@ const KanbanBoard: FC = () => {
           currentCardState={currentCardState}
           updateList={updateDoneList}
           currentListState={currentListState}
+          setChosenCard={setChosenCard}
         />
       </Col>
     </Row>

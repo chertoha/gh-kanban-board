@@ -1,6 +1,6 @@
-import { Card } from "antd";
 import Paragraph from "antd/es/typography/Paragraph";
-import { DragEvent, FC, useState } from "react";
+import { FC } from "react";
+import { Card } from "antd";
 import { Issue } from "types/types";
 
 interface IKanbanCardProps {
@@ -16,40 +16,8 @@ const KanbanCard: FC<IKanbanCardProps> = ({ issue }) => {
     created_at,
   } = issue;
 
-  // const [currentCard, setCurrentCard] = useState(null);
-
-  // const dragStartHandler = (e: DragEvent<HTMLDivElement>, card: Issue) => {
-  //   //
-  // };
-
-  // const dragLeaveHandler = (e: DragEvent<HTMLDivElement>) => {
-  //   // e.currentTarget.style.borderBottom = "none";
-  //   e.currentTarget.style.marginBottom = "0";
-  // };
-
-  // const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {
-  //   // e.currentTarget.style.borderBottom = "none";
-  //   e.currentTarget.style.marginBottom = "0";
-  // };
-
-  // const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
-  //   e.preventDefault();
-  //   // e.currentTarget.style.borderBottom = "3px solid gray";
-  //   e.currentTarget.style.marginBottom = "100px";
-  // };
-
-  // const dropHandler = (e: DragEvent<HTMLDivElement>, card: Issue) => {
-  //   e.preventDefault();
-  // };
-
   return (
     <Card
-      // draggable={true}
-      // onDragStart={(e) => dragStartHandler(e, issue)}
-      // onDragLeave={(e) => dragLeaveHandler(e)}
-      // onDragEnd={(e) => dragEndHandler(e)}
-      // onDragOver={(e) => dragOverHandler(e)}
-      // onDrop={(e) => dropHandler(e, issue)}
       title={title}
       size="small"
       headStyle={{ borderBottom: "none" }}

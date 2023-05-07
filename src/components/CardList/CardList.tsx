@@ -1,7 +1,7 @@
 import KanbanCard from "components/KanbanCard";
 import style from "./CardList.module.css";
 import { List } from "antd";
-import { Dispatch, DragEvent, FC, SetStateAction } from "react";
+import { Dispatch, DragEvent, FC, SetStateAction, useRef } from "react";
 import { Issue } from "types/types";
 import { CommonIssuesActionsCreatorType } from "redux/issues/slice";
 import { useAppDispatch } from "hooks/hooks";
@@ -15,6 +15,7 @@ interface ICardListProps {
     ICurrentListState,
     Dispatch<SetStateAction<ICurrentListState>>
   ];
+  setChosenCard: (card: HTMLDivElement | null) => void;
 }
 
 const CardList: FC<ICardListProps> = ({
@@ -22,6 +23,7 @@ const CardList: FC<ICardListProps> = ({
   currentCardState: [currentCard, setCurrentCard],
   updateList,
   currentListState: [{ currentList, updateCurrentList }, setCurrentListState],
+  setChosenCard,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -30,42 +32,36 @@ const CardList: FC<ICardListProps> = ({
     card: Issue,
     list: Issue[]
   ) => {
+    setChosenCard(e.currentTarget);
     setCurrentCard(card);
     setCurrentListState({ currentList: list, updateCurrentList: updateList });
-
-    // const chosenCardIndex = list.findIndex(({ id }) => id === card.id);
-    // const updatedList = [...list];
-    // updatedList.splice(chosenCardIndex, 1);
-    // dispatch(updateList(updatedList));
   };
 
   const dragLeaveHandler = (e: DragEvent<HTMLDivElement>): void => {
     e.currentTarget.style.borderBottom = "none";
-    // e.currentTarget.style.marginBottom = "0";
   };
 
   const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {
-    // e.currentTarget.style.marginBottom = "0";
     e.currentTarget.style.borderBottom = "none";
   };
 
   const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    // e.currentTarget.style.marginBottom = "80px";
-    e.currentTarget.style.borderBottom = "4px solid gray";
+    e.currentTarget.style.borderBottom = "10px dashed gray";
   };
 
   const dropHandler = (
     e: DragEvent<HTMLDivElement>,
-    card: Issue,
+    card: Issue | null,
     list: Issue[]
   ) => {
     e.preventDefault();
+    setChosenCard(null);
 
     if (!currentCard) return;
     if (!currentList || !updateCurrentList) return;
 
-    e.currentTarget.style.borderBottom = "0";
+    e.currentTarget.style.borderBottom = "none";
 
     // update lists after drop
     const removeCardIndex = currentList.findIndex(
@@ -74,14 +70,19 @@ const CardList: FC<ICardListProps> = ({
     const prevList = [...currentList];
     prevList.splice(removeCardIndex, 1);
 
+    let afterCardIndex = -1;
     if (list === currentList) {
-      let afterCardIndex = prevList.findIndex(({ id }) => id === card.id);
-      afterCardIndex =
-        afterCardIndex === -1 ? removeCardIndex - 1 : afterCardIndex;
+      if (card) {
+        afterCardIndex = prevList.findIndex(({ id }) => id === card.id);
+        afterCardIndex =
+          afterCardIndex === -1 ? removeCardIndex - 1 : afterCardIndex;
+      }
       prevList.splice(afterCardIndex + 1, 0, currentCard);
       dispatch(updateList(prevList));
     } else {
-      const afterCardIndex = list.findIndex(({ id }) => id === card.id);
+      if (card) {
+        afterCardIndex = list.findIndex(({ id }) => id === card.id);
+      }
       const nextList = [...list];
       nextList.splice(afterCardIndex + 1, 0, currentCard);
       dispatch(updateCurrentList(prevList));
@@ -92,23 +93,57 @@ const CardList: FC<ICardListProps> = ({
     setCurrentListState({ currentList: null, updateCurrentList: null });
   };
 
+  // Zero Item handlers
+  const onZeroItemStartHandler = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+  const onZeroItemOverHandler = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.currentTarget.style.borderBottom = "10px dashed gray";
+  };
+  const onZeroItemLeaveHandler = (e: DragEvent<HTMLDivElement>) => {
+    e.currentTarget.style.borderBottom = "none";
+  };
+  // const onZeroItemDropHandler = (
+  //   e: DragEvent<HTMLDivElement>,
+  //   list: Issue[]
+  // ) => {
+  //   e.preventDefault();
+  //   e.currentTarget.style.borderBottom = "none";
+  // };
+
   return (
     <div className={style.column}>
       <List
         className={style.column__list}
         dataSource={list}
-        renderItem={(issue) => (
-          <List.Item
-            style={{ border: "none" }}
-            draggable={true}
-            onDragStart={(e) => dragStartHandler(e, issue, list)}
-            onDragLeave={(e) => dragLeaveHandler(e)}
-            onDragEnd={(e) => dragEndHandler(e)}
-            onDragOver={(e) => dragOverHandler(e)}
-            onDrop={(e) => dropHandler(e, issue, list)}
-          >
-            <KanbanCard issue={issue} />
-          </List.Item>
+        renderItem={(issue, i) => (
+          <>
+            {i === 0 && (
+              <List.Item
+                style={{ border: "none" }}
+                draggable={true}
+                onDragStart={onZeroItemStartHandler}
+                onDragLeave={onZeroItemLeaveHandler}
+                onDragEnd={onZeroItemLeaveHandler}
+                onDragOver={onZeroItemOverHandler}
+                onDrop={(e) => {
+                  dropHandler(e, null, list);
+                }}
+              ></List.Item>
+            )}
+            <List.Item
+              style={{ border: "none" }}
+              draggable={true}
+              onDragStart={(e) => dragStartHandler(e, issue, list)}
+              onDragLeave={(e) => dragLeaveHandler(e)}
+              onDragEnd={(e) => dragEndHandler(e)}
+              onDragOver={(e) => dragOverHandler(e)}
+              onDrop={(e) => dropHandler(e, issue, list)}
+            >
+              <KanbanCard issue={issue} />
+            </List.Item>
+          </>
         )}
       />
     </div>
