@@ -67,24 +67,26 @@ const CardList: FC<ICardListProps> = ({
 
     e.currentTarget.style.borderBottom = "0";
 
-    // if (list === currentList) {
-
-    // }
-
-    // add card to a new list
-    const chosenCardIndex = list.findIndex(({ id }) => id === card.id);
-    const updatedList = [...list];
-    updatedList.splice(chosenCardIndex + 1, 0, currentCard);
-    dispatch(updateList(updatedList));
-    setCurrentCard(null);
-
-    // remove card from it's old list
-    const oldListCardIndex = currentList.findIndex(
+    // update lists after drop
+    const removeCardIndex = currentList.findIndex(
       ({ id }) => id === currentCard.id
     );
-    const updatedOldList = [...currentList];
-    updatedOldList.splice(oldListCardIndex, 1);
-    dispatch(updateCurrentList(updatedOldList));
+    const prevList = [...currentList];
+    prevList.splice(removeCardIndex, 1);
+
+    if (list === currentList) {
+      const afterCardIndex = prevList.findIndex(({ id }) => id === card.id);
+      prevList.splice(afterCardIndex + 1, 0, currentCard);
+      dispatch(updateList(prevList));
+    } else {
+      const afterCardIndex = list.findIndex(({ id }) => id === card.id);
+      const nextList = [...list];
+      nextList.splice(afterCardIndex + 1, 0, currentCard);
+      dispatch(updateCurrentList(prevList));
+      dispatch(updateList(nextList));
+    }
+
+    setCurrentCard(null);
     setCurrentListState({ currentList: null, updateCurrentList: null });
   };
 
