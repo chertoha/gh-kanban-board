@@ -75,7 +75,9 @@ const CardList: FC<ICardListProps> = ({
     prevList.splice(removeCardIndex, 1);
 
     if (list === currentList) {
-      const afterCardIndex = prevList.findIndex(({ id }) => id === card.id);
+      let afterCardIndex = prevList.findIndex(({ id }) => id === card.id);
+      afterCardIndex =
+        afterCardIndex === -1 ? removeCardIndex - 1 : afterCardIndex;
       prevList.splice(afterCardIndex + 1, 0, currentCard);
       dispatch(updateList(prevList));
     } else {
