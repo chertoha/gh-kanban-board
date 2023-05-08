@@ -1,15 +1,13 @@
-import KanbanCard from "components/KanbanCard";
-import style from "./CardList.module.css";
 import { List } from "antd";
-import { Dispatch, DragEvent, FC, SetStateAction } from "react";
-import { Issue } from "types/types";
-import { CommonIssuesActionsCreatorType } from "redux/issues/slice";
-import { useAppDispatch } from "hooks/hooks";
 import { ICurrentListState } from "components/KanbanBoard/KanbanBoard";
-import { RiDragDropFill } from "react-icons/ri";
+import KanbanCard from "components/KanbanCard";
+import { useAppDispatch } from "hooks/hooks";
+import { Dispatch, DragEvent, FC, SetStateAction } from "react";
+import { CommonIssuesActionsCreatorType } from "redux/issues/slice";
+import { Issue } from "types/types";
 import { findItemIndexFromListById } from "utils/findItemIndexFromListById";
 
-interface ICardListProps {
+interface ICardListItemProps {
   list: Issue[];
   currentCardState: [Issue | null, Dispatch<SetStateAction<Issue | null>>];
   updateList: CommonIssuesActionsCreatorType;
@@ -18,14 +16,16 @@ interface ICardListProps {
     Dispatch<SetStateAction<ICurrentListState>>
   ];
   setChosenCard: (card: HTMLDivElement | null) => void;
+  issue: Issue;
 }
 
-const CardList: FC<ICardListProps> = ({
+const CardListItem: FC<ICardListItemProps> = ({
   list,
   currentCardState: [currentCard, setCurrentCard],
   updateList,
   currentListState: [{ currentList, updateCurrentList }, setCurrentListState],
   setChosenCard,
+  issue,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -95,77 +95,19 @@ const CardList: FC<ICardListProps> = ({
     setCurrentListState({ currentList: null, updateCurrentList: null });
   };
 
-  // Zero Item handlers
-  const onZeroItemStartHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  };
-  const onZeroItemOverHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.currentTarget.style.borderBottom = "10px dashed gray";
-  };
-  const onZeroItemLeaveHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.currentTarget.style.borderBottom = "none";
-  };
-
   return (
-    <div className={style.column}>
-      {list.length > 0 ? (
-        <List
-          className={style.column__list}
-          dataSource={list}
-          renderItem={(issue, i) => (
-            <>
-              {i === 0 && (
-                <List.Item
-                  style={{ border: "none" }}
-                  draggable={true}
-                  onDragStart={onZeroItemStartHandler}
-                  onDragLeave={onZeroItemLeaveHandler}
-                  onDragEnd={onZeroItemLeaveHandler}
-                  onDragOver={onZeroItemOverHandler}
-                  onDrop={(e) => {
-                    dropHandler(e, null, list);
-                  }}
-                ></List.Item>
-              )}
-              <List.Item
-                style={{ border: "none" }}
-                draggable={true}
-                onDragStart={(e) => dragStartHandler(e, issue, list)}
-                onDragLeave={(e) => dragLeaveHandler(e)}
-                onDragEnd={(e) => dragEndHandler(e)}
-                onDragOver={(e) => dragOverHandler(e)}
-                onDrop={(e) => dropHandler(e, issue, list)}
-              >
-                <KanbanCard issue={issue} />
-              </List.Item>
-            </>
-          )}
-        />
-      ) : (
-        <div
-          style={{
-            height: "100%",
-            borderRadius: "20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "gray",
-          }}
-          draggable={true}
-          onDragStart={onZeroItemStartHandler}
-          onDragLeave={onZeroItemLeaveHandler}
-          onDragEnd={onZeroItemLeaveHandler}
-          onDragOver={onZeroItemOverHandler}
-          onDrop={(e) => {
-            dropHandler(e, null, list);
-          }}
-        >
-          <RiDragDropFill size={50} />
-        </div>
-      )}
-    </div>
+    <List.Item
+      style={{ border: "none" }}
+      draggable={true}
+      onDragStart={(e) => dragStartHandler(e, issue, list)}
+      onDragLeave={(e) => dragLeaveHandler(e)}
+      onDragEnd={(e) => dragEndHandler(e)}
+      onDragOver={(e) => dragOverHandler(e)}
+      onDrop={(e) => dropHandler(e, issue, list)}
+    >
+      <KanbanCard issue={issue} />
+    </List.Item>
   );
 };
 
-export default CardList;
+export default CardListItem;
