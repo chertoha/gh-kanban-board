@@ -6,6 +6,7 @@ import { Issue } from "types/types";
 import { CommonIssuesActionsCreatorType } from "redux/issues/slice";
 import { useAppDispatch } from "hooks/hooks";
 import { ICurrentListState } from "components/KanbanBoard/KanbanBoard";
+import { RiDragDropFill } from "react-icons/ri";
 
 interface ICardListProps {
   list: Issue[];
@@ -43,6 +44,7 @@ const CardList: FC<ICardListProps> = ({
 
   const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {
     e.currentTarget.style.borderBottom = "none";
+    setChosenCard(null);
   };
 
   const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
@@ -56,6 +58,7 @@ const CardList: FC<ICardListProps> = ({
     list: Issue[]
   ) => {
     e.preventDefault();
+
     setChosenCard(null);
 
     if (!currentCard) return;
@@ -107,38 +110,61 @@ const CardList: FC<ICardListProps> = ({
 
   return (
     <div className={style.column}>
-      <List
-        className={style.column__list}
-        dataSource={list}
-        renderItem={(issue, i) => (
-          <>
-            {i === 0 && (
+      {list.length > 0 ? (
+        <List
+          className={style.column__list}
+          dataSource={list}
+          renderItem={(issue, i) => (
+            <>
+              {i === 0 && (
+                <List.Item
+                  style={{ border: "none" }}
+                  draggable={true}
+                  onDragStart={onZeroItemStartHandler}
+                  onDragLeave={onZeroItemLeaveHandler}
+                  onDragEnd={onZeroItemLeaveHandler}
+                  onDragOver={onZeroItemOverHandler}
+                  onDrop={(e) => {
+                    dropHandler(e, null, list);
+                  }}
+                ></List.Item>
+              )}
               <List.Item
                 style={{ border: "none" }}
                 draggable={true}
-                onDragStart={onZeroItemStartHandler}
-                onDragLeave={onZeroItemLeaveHandler}
-                onDragEnd={onZeroItemLeaveHandler}
-                onDragOver={onZeroItemOverHandler}
-                onDrop={(e) => {
-                  dropHandler(e, null, list);
-                }}
-              ></List.Item>
-            )}
-            <List.Item
-              style={{ border: "none" }}
-              draggable={true}
-              onDragStart={(e) => dragStartHandler(e, issue, list)}
-              onDragLeave={(e) => dragLeaveHandler(e)}
-              onDragEnd={(e) => dragEndHandler(e)}
-              onDragOver={(e) => dragOverHandler(e)}
-              onDrop={(e) => dropHandler(e, issue, list)}
-            >
-              <KanbanCard issue={issue} />
-            </List.Item>
-          </>
-        )}
-      />
+                onDragStart={(e) => dragStartHandler(e, issue, list)}
+                onDragLeave={(e) => dragLeaveHandler(e)}
+                onDragEnd={(e) => dragEndHandler(e)}
+                onDragOver={(e) => dragOverHandler(e)}
+                onDrop={(e) => dropHandler(e, issue, list)}
+              >
+                <KanbanCard issue={issue} />
+              </List.Item>
+            </>
+          )}
+        />
+      ) : (
+        <div
+          style={{
+            height: "100%",
+            borderRadius: "20px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "gray",
+          }}
+          draggable={true}
+          onDragStart={onZeroItemStartHandler}
+          onDragLeave={onZeroItemLeaveHandler}
+          onDragEnd={onZeroItemLeaveHandler}
+          onDragOver={onZeroItemOverHandler}
+          onDrop={(e) => {
+            dropHandler(e, null, list);
+          }}
+        >
+          <RiDragDropFill size={50} />
+        </div>
+      )}
     </div>
   );
 };
