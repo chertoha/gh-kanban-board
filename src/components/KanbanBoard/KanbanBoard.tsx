@@ -1,7 +1,7 @@
-import { Col, Row } from "antd";
 import CardList from "components/CardList";
+import { Col, Row } from "antd";
 import { useAppDispatch, useAppSelector } from "hooks/hooks";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import {
   selectDoneList,
   selectInProgressList,
@@ -12,12 +12,19 @@ import {
   updateTodoList,
   updateInProgressList,
   updateDoneList,
+  CommonIssuesActionsCreatorType,
 } from "redux/issues/slice";
 import {
   todoListInit,
   inProgressListInit,
   doneListInit,
 } from "utils/tempInitialState";
+import { useChosenItemStyles } from "components/CardList/hooks/useChosenItemStyles";
+
+export interface ICurrentListState {
+  currentList: Issue[] | null;
+  updateCurrentList: CommonIssuesActionsCreatorType | null;
+}
 
 const KanbanBoard: FC = () => {
   const dispatch = useAppDispatch();
@@ -26,33 +33,54 @@ const KanbanBoard: FC = () => {
   const inProgressList: Issue[] = useAppSelector(selectInProgressList);
   const doneList: Issue[] = useAppSelector(selectDoneList);
 
+  const currentCardState = useState<Issue | null>(null);
+  const currentListState = useState<ICurrentListState>({
+    currentList: null,
+    updateCurrentList: null,
+  });
+
+  const chosenItemStyles = useChosenItemStyles();
+
   useEffect(() => {
-    console.log("onMount");
     try {
       setTimeout(() => {
         dispatch(updateTodoList(todoListInit));
-      }, 1000);
+      }, 100);
       setTimeout(() => {
         dispatch(updateInProgressList(inProgressListInit));
-      }, 2000);
+      }, 200);
       setTimeout(() => {
         dispatch(updateDoneList(doneListInit));
-      }, 3000);
+      }, 300);
     } catch (err) {
       console.log(err);
     }
   }, [dispatch]);
 
+  const commonProps = { currentCardState, currentListState, chosenItemStyles };
+
   return (
     <Row style={{ boxSizing: "border-box" }} gutter={32}>
       <Col span={8}>
-        <CardList list={todoList} />
+        <CardList
+          list={todoList}
+          updateList={updateTodoList}
+          {...commonProps}
+        />
       </Col>
       <Col span={8}>
-        <CardList list={inProgressList} />
+        <CardList
+          list={inProgressList}
+          updateList={updateInProgressList}
+          {...commonProps}
+        />
       </Col>
       <Col span={8}>
-        <CardList list={doneList} />
+        <CardList
+          list={doneList}
+          updateList={updateDoneList}
+          {...commonProps}
+        />
       </Col>
     </Row>
   );

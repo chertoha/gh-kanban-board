@@ -1,25 +1,29 @@
-import { List } from "antd";
-import KanbanCard from "components/KanbanCard";
-import { FC } from "react";
-import { Issue } from "types/types";
+import CardListItem from "./CardListItem";
+import CardListZeroItem from "./CardListZeroItem";
+import CardListEmptyItem from "./CardListEmptyItem";
 import style from "./CardList.module.css";
+import { List } from "antd";
+import { FC } from "react";
+import { ICardListProps } from "./types/props";
 
-interface ICardListProps {
-  list: Issue[];
-}
-
-const CardList: FC<ICardListProps> = ({ list }) => {
+const CardList: FC<ICardListProps> = (props) => {
+  const { list } = props;
   return (
     <div className={style.column}>
-      <List
-        className={style.column__list}
-        dataSource={list}
-        renderItem={(issue) => (
-          <List.Item style={{ border: "none" }}>
-            <KanbanCard issue={issue} />
-          </List.Item>
-        )}
-      />
+      {list.length > 0 ? (
+        <List
+          className={style.column__list}
+          dataSource={list}
+          renderItem={(issue, i) => (
+            <>
+              {i === 0 && <CardListZeroItem {...props} />}
+              <CardListItem {...props} issue={issue} />
+            </>
+          )}
+        />
+      ) : (
+        <CardListEmptyItem {...props} />
+      )}
     </div>
   );
 };
