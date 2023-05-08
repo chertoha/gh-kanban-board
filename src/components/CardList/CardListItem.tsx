@@ -1,31 +1,18 @@
-import { List } from "antd";
-import { ICurrentListState } from "components/KanbanBoard/KanbanBoard";
 import KanbanCard from "components/KanbanCard";
+import { itemDragStyles } from "./utils/setItemDragStyles";
+import { List } from "antd";
 import { useAppDispatch } from "hooks/hooks";
-import { Dispatch, DragEvent, FC, SetStateAction } from "react";
-import { CommonIssuesActionsCreatorType } from "redux/issues/slice";
+import { DragEvent, FC } from "react";
 import { Issue } from "types/types";
-import { ICardListItemProps } from "./types/props";
+import { ICardListProps } from "./types/props";
 import { calculateAfterDropLists } from "./utils/calculateAfterDropLists";
 
-// interface ICardListItemProps {
-//   list: Issue[];
-//   currentCardState: [Issue | null, Dispatch<SetStateAction<Issue | null>>];
-//   updateList: CommonIssuesActionsCreatorType;
-//   currentListState: [
-//     ICurrentListState,
-//     Dispatch<SetStateAction<ICurrentListState>>
-//   ];
-//   setChosenCard: (card: HTMLDivElement | null) => void;
-//   issue: Issue;
-// }
-
-const CardListItem: FC<ICardListItemProps> = ({
+const CardListItem: FC<ICardListProps> = ({
   list,
   currentCardState: [currentCard, setCurrentCard],
   updateList,
   currentListState: [{ currentList, updateCurrentList }, setCurrentListState],
-  setChosenCard,
+  chosenItemStyles,
   issue,
 }) => {
   const dispatch = useAppDispatch();
@@ -35,66 +22,16 @@ const CardListItem: FC<ICardListItemProps> = ({
     card: Issue,
     list: Issue[]
   ) => {
-    setChosenCard(e.currentTarget);
+    chosenItemStyles.apply(e.currentTarget);
+
     setCurrentCard(card);
     setCurrentListState({ currentList: list, updateCurrentList: updateList });
   };
 
-  const dragLeaveHandler = (e: DragEvent<HTMLDivElement>): void => {
-    e.currentTarget.style.borderBottom = "none";
-  };
-
   const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.currentTarget.style.borderBottom = "none";
-    setChosenCard(null);
+    itemDragStyles.remove(e);
+    chosenItemStyles.remove();
   };
-
-  const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.currentTarget.style.borderBottom = "10px dashed gray";
-  };
-
-  //   const dropHandler = (
-  //     e: DragEvent<HTMLDivElement>,
-  //     card: Issue | null,
-  //     list: Issue[]
-  //   ) => {
-  //     e.preventDefault();
-  //     e.currentTarget.style.borderBottom = "none";
-
-  //     if (!currentCard) return;
-  //     if (!currentList || !updateCurrentList) return;
-
-  //     const removeCardIndex = findItemIndexFromListById(
-  //       currentList,
-  //       currentCard.id
-  //     );
-  //     const prevList = [...currentList];
-  //     prevList.splice(removeCardIndex, 1);
-
-  //     let afterCardIndex = -1;
-  //     if (list === currentList) {
-  //       if (card) {
-  //         afterCardIndex = findItemIndexFromListById(prevList, card.id);
-  //         afterCardIndex =
-  //           afterCardIndex === -1 ? removeCardIndex - 1 : afterCardIndex;
-  //       }
-  //       prevList.splice(afterCardIndex + 1, 0, currentCard);
-  //       dispatch(updateList(prevList));
-  //     } else {
-  //       if (card) {
-  //         afterCardIndex = findItemIndexFromListById(list, card.id);
-  //       }
-  //       const nextList = [...list];
-  //       nextList.splice(afterCardIndex + 1, 0, currentCard);
-  //       dispatch(updateCurrentList(prevList));
-  //       dispatch(updateList(nextList));
-  //     }
-
-  //     setChosenCard(null);
-  //     setCurrentCard(null);
-  //     setCurrentListState({ currentList: null, updateCurrentList: null });
-  //   };
 
   const dropHandler = (
     e: DragEvent<HTMLDivElement>,
@@ -105,7 +42,8 @@ const CardListItem: FC<ICardListItemProps> = ({
     if (!currentCard) return;
     if (!currentList || !updateCurrentList) return;
 
-    e.currentTarget.style.borderBottom = "none";
+    itemDragStyles.remove(e);
+    chosenItemStyles.remove();
 
     const { prevList, nextList } = calculateAfterDropLists(
       currentCard,
@@ -117,7 +55,6 @@ const CardListItem: FC<ICardListItemProps> = ({
     prevList && dispatch(updateCurrentList(prevList));
     nextList && dispatch(updateList(nextList));
 
-    setChosenCard(null);
     setCurrentCard(null);
     setCurrentListState({ currentList: null, updateCurrentList: null });
   };
@@ -129,9 +66,12 @@ const CardListItem: FC<ICardListItemProps> = ({
       style={{ border: "none" }}
       draggable={true}
       onDragStart={(e) => dragStartHandler(e, issue, list)}
-      onDragLeave={(e) => dragLeaveHandler(e)}
+      onDragLeave={itemDragStyles.remove}
       onDragEnd={(e) => dragEndHandler(e)}
-      onDragOver={(e) => dragOverHandler(e)}
+      onDragOver={(e) => {
+        e.preventDefault();
+        itemDragStyles.apply(e);
+      }}
       onDrop={(e) => dropHandler(e, issue, list)}
     >
       <KanbanCard issue={issue} />

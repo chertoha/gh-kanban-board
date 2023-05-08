@@ -2,26 +2,18 @@ import { useAppDispatch } from "hooks/hooks";
 import { DragEvent, FC } from "react";
 import { RiDragDropFill } from "react-icons/ri";
 import { Issue } from "types/types";
-import { ICardListItemProps } from "./types/props";
+import { ICardListProps } from "./types/props";
 import { calculateAfterDropLists } from "./utils/calculateAfterDropLists";
+import { itemDragStyles } from "./utils/setItemDragStyles";
 
-const CardListEmptyItem: FC<ICardListItemProps> = ({
+const CardListEmptyItem: FC<ICardListProps> = ({
   list,
   currentCardState: [currentCard, setCurrentCard],
   currentListState: [{ currentList, updateCurrentList }, setCurrentListState],
-  setChosenCard,
+  chosenItemStyles,
   updateList,
 }) => {
   const dispatch = useAppDispatch();
-
-  const overHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.currentTarget.style.borderBottom = "10px dashed gray";
-  };
-
-  const leaveHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.currentTarget.style.borderBottom = "none";
-  };
 
   const dropHandler = (
     e: DragEvent<HTMLDivElement>,
@@ -29,10 +21,11 @@ const CardListEmptyItem: FC<ICardListItemProps> = ({
     list: Issue[]
   ) => {
     e.preventDefault();
+    itemDragStyles.remove(e);
+    chosenItemStyles.remove();
+
     if (!currentCard) return;
     if (!currentList || !updateCurrentList) return;
-
-    e.currentTarget.style.borderBottom = "none";
 
     const { prevList, nextList } = calculateAfterDropLists(
       currentCard,
@@ -44,7 +37,6 @@ const CardListEmptyItem: FC<ICardListItemProps> = ({
     prevList && dispatch(updateCurrentList(prevList));
     nextList && dispatch(updateList(nextList));
 
-    setChosenCard(null);
     setCurrentCard(null);
     setCurrentListState({ currentList: null, updateCurrentList: null });
   };
@@ -52,7 +44,6 @@ const CardListEmptyItem: FC<ICardListItemProps> = ({
     <div
       style={{
         height: "100%",
-        borderRadius: "20px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -62,9 +53,12 @@ const CardListEmptyItem: FC<ICardListItemProps> = ({
       onDragStart={(e) => {
         e.preventDefault();
       }}
-      onDragLeave={leaveHandler}
-      onDragEnd={leaveHandler}
-      onDragOver={overHandler}
+      onDragLeave={itemDragStyles.remove}
+      onDragEnd={itemDragStyles.remove}
+      onDragOver={(e) => {
+        e.preventDefault();
+        itemDragStyles.apply(e);
+      }}
       onDrop={(e) => {
         dropHandler(e, null, list);
       }}

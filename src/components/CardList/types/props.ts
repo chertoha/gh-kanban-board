@@ -2,8 +2,9 @@ import { ICurrentListState } from "components/KanbanBoard/KanbanBoard";
 import { Dispatch, SetStateAction } from "react";
 import { CommonIssuesActionsCreatorType } from "redux/issues/slice";
 import { Issue } from "types/types";
+import { ChosenItemStylesHook } from "../hooks/useChosenItemStyles";
 
-export interface ICardListItemProps {
+export interface ICardListProps {
   list: Issue[];
   currentCardState: [Issue | null, Dispatch<SetStateAction<Issue | null>>];
   updateList: CommonIssuesActionsCreatorType;
@@ -11,6 +12,6 @@ export interface ICardListItemProps {
     ICurrentListState,
     Dispatch<SetStateAction<ICurrentListState>>
   ];
-  setChosenCard: (card: HTMLDivElement | null) => void;
+  chosenItemStyles: ChosenItemStylesHook;
   issue?: Issue | undefined;
 }

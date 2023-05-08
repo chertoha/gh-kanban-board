@@ -13,6 +13,7 @@ export const calculateAfterDropLists = (
 
   let afterCardIndex = -1;
   let nextList;
+
   if (listTo === listFrom) {
     if (afterCard) {
       afterCardIndex = findItemIndexFromListById(prevList, afterCard.id);
@@ -20,6 +21,7 @@ export const calculateAfterDropLists = (
         afterCardIndex === -1 ? removeCardIndex - 1 : afterCardIndex;
     }
     prevList.splice(afterCardIndex + 1, 0, currentCard);
+
     return { prevList: null, nextList: prevList };
   } else {
     if (afterCard) {
@@ -27,6 +29,7 @@ export const calculateAfterDropLists = (
     }
     nextList = [...listTo];
     nextList.splice(afterCardIndex + 1, 0, currentCard);
+
     return { prevList, nextList };
   }
 };
