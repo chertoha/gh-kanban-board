@@ -5,19 +5,20 @@ import { useAppDispatch } from "hooks/hooks";
 import { Dispatch, DragEvent, FC, SetStateAction } from "react";
 import { CommonIssuesActionsCreatorType } from "redux/issues/slice";
 import { Issue } from "types/types";
-import { findItemIndexFromListById } from "utils/findItemIndexFromListById";
+import { ICardListItemProps } from "./types/props";
+import { calculateAfterDropLists } from "./utils/calculateAfterDropLists";
 
-interface ICardListItemProps {
-  list: Issue[];
-  currentCardState: [Issue | null, Dispatch<SetStateAction<Issue | null>>];
-  updateList: CommonIssuesActionsCreatorType;
-  currentListState: [
-    ICurrentListState,
-    Dispatch<SetStateAction<ICurrentListState>>
-  ];
-  setChosenCard: (card: HTMLDivElement | null) => void;
-  issue: Issue;
-}
+// interface ICardListItemProps {
+//   list: Issue[];
+//   currentCardState: [Issue | null, Dispatch<SetStateAction<Issue | null>>];
+//   updateList: CommonIssuesActionsCreatorType;
+//   currentListState: [
+//     ICurrentListState,
+//     Dispatch<SetStateAction<ICurrentListState>>
+//   ];
+//   setChosenCard: (card: HTMLDivElement | null) => void;
+//   issue: Issue;
+// }
 
 const CardListItem: FC<ICardListItemProps> = ({
   list,
@@ -53,6 +54,48 @@ const CardListItem: FC<ICardListItemProps> = ({
     e.currentTarget.style.borderBottom = "10px dashed gray";
   };
 
+  //   const dropHandler = (
+  //     e: DragEvent<HTMLDivElement>,
+  //     card: Issue | null,
+  //     list: Issue[]
+  //   ) => {
+  //     e.preventDefault();
+  //     e.currentTarget.style.borderBottom = "none";
+
+  //     if (!currentCard) return;
+  //     if (!currentList || !updateCurrentList) return;
+
+  //     const removeCardIndex = findItemIndexFromListById(
+  //       currentList,
+  //       currentCard.id
+  //     );
+  //     const prevList = [...currentList];
+  //     prevList.splice(removeCardIndex, 1);
+
+  //     let afterCardIndex = -1;
+  //     if (list === currentList) {
+  //       if (card) {
+  //         afterCardIndex = findItemIndexFromListById(prevList, card.id);
+  //         afterCardIndex =
+  //           afterCardIndex === -1 ? removeCardIndex - 1 : afterCardIndex;
+  //       }
+  //       prevList.splice(afterCardIndex + 1, 0, currentCard);
+  //       dispatch(updateList(prevList));
+  //     } else {
+  //       if (card) {
+  //         afterCardIndex = findItemIndexFromListById(list, card.id);
+  //       }
+  //       const nextList = [...list];
+  //       nextList.splice(afterCardIndex + 1, 0, currentCard);
+  //       dispatch(updateCurrentList(prevList));
+  //       dispatch(updateList(nextList));
+  //     }
+
+  //     setChosenCard(null);
+  //     setCurrentCard(null);
+  //     setCurrentListState({ currentList: null, updateCurrentList: null });
+  //   };
+
   const dropHandler = (
     e: DragEvent<HTMLDivElement>,
     card: Issue | null,
@@ -64,36 +107,22 @@ const CardListItem: FC<ICardListItemProps> = ({
 
     e.currentTarget.style.borderBottom = "none";
 
-    const removeCardIndex = findItemIndexFromListById(
+    const { prevList, nextList } = calculateAfterDropLists(
+      currentCard,
+      card,
       currentList,
-      currentCard.id
+      list
     );
-    const prevList = [...currentList];
-    prevList.splice(removeCardIndex, 1);
 
-    let afterCardIndex = -1;
-    if (list === currentList) {
-      if (card) {
-        afterCardIndex = findItemIndexFromListById(prevList, card.id);
-        afterCardIndex =
-          afterCardIndex === -1 ? removeCardIndex - 1 : afterCardIndex;
-      }
-      prevList.splice(afterCardIndex + 1, 0, currentCard);
-      dispatch(updateList(prevList));
-    } else {
-      if (card) {
-        afterCardIndex = findItemIndexFromListById(list, card.id);
-      }
-      const nextList = [...list];
-      nextList.splice(afterCardIndex + 1, 0, currentCard);
-      dispatch(updateCurrentList(prevList));
-      dispatch(updateList(nextList));
-    }
+    prevList && dispatch(updateCurrentList(prevList));
+    nextList && dispatch(updateList(nextList));
 
     setChosenCard(null);
     setCurrentCard(null);
     setCurrentListState({ currentList: null, updateCurrentList: null });
   };
+
+  if (!issue) return null;
 
   return (
     <List.Item

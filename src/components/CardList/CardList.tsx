@@ -8,6 +8,10 @@ import { useAppDispatch } from "hooks/hooks";
 import { ICurrentListState } from "components/KanbanBoard/KanbanBoard";
 import { RiDragDropFill } from "react-icons/ri";
 import { findItemIndexFromListById } from "utils/findItemIndexFromListById";
+import CardListItem from "./CardListItem";
+import { calculateAfterDropLists } from "./utils/calculateAfterDropLists";
+import CardListZeroItem from "./CardListZeroItem";
+import CardListEmptyItem from "./CardListEmptyItem";
 
 interface ICardListProps {
   list: Issue[];
@@ -27,85 +31,69 @@ const CardList: FC<ICardListProps> = ({
   currentListState: [{ currentList, updateCurrentList }, setCurrentListState],
   setChosenCard,
 }) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  const dragStartHandler = (
-    e: DragEvent<HTMLDivElement>,
-    card: Issue,
-    list: Issue[]
-  ) => {
-    setChosenCard(e.currentTarget);
-    setCurrentCard(card);
-    setCurrentListState({ currentList: list, updateCurrentList: updateList });
-  };
+  // const dragStartHandler = (
+  //   e: DragEvent<HTMLDivElement>,
+  //   card: Issue,
+  //   list: Issue[]
+  // ) => {
+  //   setChosenCard(e.currentTarget);
+  //   setCurrentCard(card);
+  //   setCurrentListState({ currentList: list, updateCurrentList: updateList });
+  // };
 
-  const dragLeaveHandler = (e: DragEvent<HTMLDivElement>): void => {
-    e.currentTarget.style.borderBottom = "none";
-  };
+  // const dragLeaveHandler = (e: DragEvent<HTMLDivElement>): void => {
+  //   e.currentTarget.style.borderBottom = "none";
+  // };
 
-  const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.currentTarget.style.borderBottom = "none";
-    setChosenCard(null);
-  };
+  // const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {
+  //   e.currentTarget.style.borderBottom = "none";
+  //   setChosenCard(null);
+  // };
 
-  const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.currentTarget.style.borderBottom = "10px dashed gray";
-  };
+  // const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
+  //   e.preventDefault();
+  //   e.currentTarget.style.borderBottom = "10px dashed gray";
+  // };
 
-  const dropHandler = (
-    e: DragEvent<HTMLDivElement>,
-    card: Issue | null,
-    list: Issue[]
-  ) => {
-    e.preventDefault();
-    if (!currentCard) return;
-    if (!currentList || !updateCurrentList) return;
+  // const dropHandler = (
+  //   e: DragEvent<HTMLDivElement>,
+  //   card: Issue | null,
+  //   list: Issue[]
+  // ) => {
+  //   e.preventDefault();
+  //   if (!currentCard) return;
+  //   if (!currentList || !updateCurrentList) return;
 
-    e.currentTarget.style.borderBottom = "none";
+  //   e.currentTarget.style.borderBottom = "none";
 
-    const removeCardIndex = findItemIndexFromListById(
-      currentList,
-      currentCard.id
-    );
-    const prevList = [...currentList];
-    prevList.splice(removeCardIndex, 1);
+  //   const { prevList, nextList } = calculateAfterDropLists(
+  //     currentCard,
+  //     card,
+  //     currentList,
+  //     list
+  //   );
 
-    let afterCardIndex = -1;
-    if (list === currentList) {
-      if (card) {
-        afterCardIndex = findItemIndexFromListById(prevList, card.id);
-        afterCardIndex =
-          afterCardIndex === -1 ? removeCardIndex - 1 : afterCardIndex;
-      }
-      prevList.splice(afterCardIndex + 1, 0, currentCard);
-      dispatch(updateList(prevList));
-    } else {
-      if (card) {
-        afterCardIndex = findItemIndexFromListById(list, card.id);
-      }
-      const nextList = [...list];
-      nextList.splice(afterCardIndex + 1, 0, currentCard);
-      dispatch(updateCurrentList(prevList));
-      dispatch(updateList(nextList));
-    }
+  //   prevList && dispatch(updateCurrentList(prevList));
+  //   nextList && dispatch(updateList(nextList));
 
-    setChosenCard(null);
-    setCurrentCard(null);
-    setCurrentListState({ currentList: null, updateCurrentList: null });
-  };
+  //   setChosenCard(null);
+  //   setCurrentCard(null);
+  //   setCurrentListState({ currentList: null, updateCurrentList: null });
+  // };
 
   // Zero Item handlers
-  const onZeroItemStartHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  };
-  const onZeroItemOverHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.currentTarget.style.borderBottom = "10px dashed gray";
-  };
-  const onZeroItemLeaveHandler = (e: DragEvent<HTMLDivElement>) => {
-    e.currentTarget.style.borderBottom = "none";
-  };
+  // const onZeroItemStartHandler = (e: DragEvent<HTMLDivElement>) => {
+  //   e.preventDefault();
+  // };
+  // const onZeroItemOverHandler = (e: DragEvent<HTMLDivElement>) => {
+  //   e.preventDefault();
+  //   e.currentTarget.style.borderBottom = "10px dashed gray";
+  // };
+  // const onZeroItemLeaveHandler = (e: DragEvent<HTMLDivElement>) => {
+  //   e.currentTarget.style.borderBottom = "none";
+  // };
 
   return (
     <div className={style.column}>
@@ -116,19 +104,29 @@ const CardList: FC<ICardListProps> = ({
           renderItem={(issue, i) => (
             <>
               {i === 0 && (
-                <List.Item
-                  style={{ border: "none" }}
-                  draggable={true}
-                  onDragStart={onZeroItemStartHandler}
-                  onDragLeave={onZeroItemLeaveHandler}
-                  onDragEnd={onZeroItemLeaveHandler}
-                  onDragOver={onZeroItemOverHandler}
-                  onDrop={(e) => {
-                    dropHandler(e, null, list);
-                  }}
-                ></List.Item>
+                // <List.Item
+                //   style={{ border: "none" }}
+                //   draggable={true}
+                //   onDragStart={onZeroItemStartHandler}
+                //   onDragLeave={onZeroItemLeaveHandler}
+                //   onDragEnd={onZeroItemLeaveHandler}
+                //   onDragOver={onZeroItemOverHandler}
+                //   onDrop={(e) => {
+                //     dropHandler(e, null, list);
+                //   }}
+                // ></List.Item>
+                <CardListZeroItem
+                  list={list}
+                  currentCardState={[currentCard, setCurrentCard]}
+                  updateList={updateList}
+                  currentListState={[
+                    { currentList, updateCurrentList },
+                    setCurrentListState,
+                  ]}
+                  setChosenCard={setChosenCard}
+                />
               )}
-              <List.Item
+              {/* <List.Item
                 style={{ border: "none" }}
                 draggable={true}
                 onDragStart={(e) => dragStartHandler(e, issue, list)}
@@ -138,31 +136,52 @@ const CardList: FC<ICardListProps> = ({
                 onDrop={(e) => dropHandler(e, issue, list)}
               >
                 <KanbanCard issue={issue} />
-              </List.Item>
+              </List.Item> */}
+              <CardListItem
+                list={list}
+                currentCardState={[currentCard, setCurrentCard]}
+                updateList={updateList}
+                currentListState={[
+                  { currentList, updateCurrentList },
+                  setCurrentListState,
+                ]}
+                setChosenCard={setChosenCard}
+                issue={issue}
+              />
             </>
           )}
         />
       ) : (
-        <div
-          style={{
-            height: "100%",
-            borderRadius: "20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "gray",
-          }}
-          draggable={true}
-          onDragStart={onZeroItemStartHandler}
-          onDragLeave={onZeroItemLeaveHandler}
-          onDragEnd={onZeroItemLeaveHandler}
-          onDragOver={onZeroItemOverHandler}
-          onDrop={(e) => {
-            dropHandler(e, null, list);
-          }}
-        >
-          <RiDragDropFill size={50} />
-        </div>
+        // <div
+        //   style={{
+        //     height: "100%",
+        //     borderRadius: "20px",
+        //     display: "flex",
+        //     alignItems: "center",
+        //     justifyContent: "center",
+        //     color: "gray",
+        //   }}
+        //   draggable={true}
+        //   onDragStart={onZeroItemStartHandler}
+        //   onDragLeave={onZeroItemLeaveHandler}
+        //   onDragEnd={onZeroItemLeaveHandler}
+        //   onDragOver={onZeroItemOverHandler}
+        //   onDrop={(e) => {
+        //     dropHandler(e, null, list);
+        //   }}
+        // >
+        //   <RiDragDropFill size={50} />
+        // </div>
+        <CardListEmptyItem
+          list={list}
+          currentCardState={[currentCard, setCurrentCard]}
+          updateList={updateList}
+          currentListState={[
+            { currentList, updateCurrentList },
+            setCurrentListState,
+          ]}
+          setChosenCard={setChosenCard}
+        />
       )}
     </div>
   );
