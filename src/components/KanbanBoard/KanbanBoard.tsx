@@ -20,6 +20,7 @@ import {
   doneListInit,
 } from "utils/tempInitialState";
 import { useChosenItemStyles } from "components/CardList/hooks/useChosenItemStyles";
+import { api } from "services/api";
 
 export interface ICurrentListState {
   currentList: Issue[] | null;
@@ -41,21 +42,33 @@ const KanbanBoard: FC = () => {
 
   const chosenItemStyles = useChosenItemStyles();
 
+  // useEffect(() => {
+  //   try {
+  //     setTimeout(() => {
+  //       dispatch(updateTodoList(todoListInit));
+  //     }, 100);
+  //     setTimeout(() => {
+  //       dispatch(updateInProgressList(inProgressListInit));
+  //     }, 200);
+  //     setTimeout(() => {
+  //       dispatch(updateDoneList(doneListInit));
+  //     }, 300);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }, [dispatch]);
+
   useEffect(() => {
     try {
-      setTimeout(() => {
-        dispatch(updateTodoList(todoListInit));
-      }, 100);
-      setTimeout(() => {
-        dispatch(updateInProgressList(inProgressListInit));
-      }, 200);
-      setTimeout(() => {
-        dispatch(updateDoneList(doneListInit));
-      }, 300);
+      const testApi = async () => {
+        const data = await api.getIssues("facebook", "react");
+        console.log(data);
+      };
+      testApi();
     } catch (err) {
       console.log(err);
     }
-  }, [dispatch]);
+  }, []);
 
   const commonProps = { currentCardState, currentListState, chosenItemStyles };
 
