@@ -21,6 +21,11 @@ import {
 } from "utils/tempInitialState";
 import { useChosenItemStyles } from "components/CardList/hooks/useChosenItemStyles";
 import { api } from "services/api";
+import {
+  getDoneIssues,
+  getRepoStars,
+  getTodoIssues,
+} from "services/kanbanDataService";
 
 export interface ICurrentListState {
   currentList: Issue[] | null;
@@ -61,7 +66,7 @@ const KanbanBoard: FC = () => {
   useEffect(() => {
     try {
       const testApi = async () => {
-        const data = await api.getIssues("facebook", "react");
+        const data = await getDoneIssues("facebook", "react");
         console.log(data);
       };
       testApi();
