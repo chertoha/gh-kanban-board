@@ -1,12 +1,3 @@
-.column {
-  padding: 16px 16px;
-  height: 800px;
-
-  background-color: rgb(247, 241, 241);
-  border: 6px solid rgb(130, 127, 127);
-  border-radius: 15px;
-}
-
 .column__list {
   height: 100%;
   padding-right: 16px;
@@ -22,7 +13,3 @@
   background-color: rgb(160, 159, 159);
   border-radius: 4px;
 }
-
-/* .hovered-item {
-  margin-bottom: 80px;
-} */

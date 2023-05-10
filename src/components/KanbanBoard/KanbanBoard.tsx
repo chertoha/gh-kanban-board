@@ -25,6 +25,7 @@ import {
   getInProgressIssues,
   getTodoIssues,
 } from "services/kanbanDataService";
+import style from "./KanbanBoard.module.css";
 
 export interface ICurrentListState {
   currentList: Issue[] | null;
@@ -34,9 +35,9 @@ export interface ICurrentListState {
 const KanbanBoard: FC = () => {
   const dispatch = useAppDispatch();
 
-  const todoList: Issue[] = useAppSelector(selectTodoList);
-  const inProgressList: Issue[] = useAppSelector(selectInProgressList);
-  const doneList: Issue[] = useAppSelector(selectDoneList);
+  const todoList: Issue[] | null = useAppSelector(selectTodoList);
+  const inProgressList: Issue[] | null = useAppSelector(selectInProgressList);
+  const doneList: Issue[] | null = useAppSelector(selectDoneList);
 
   const currentCardState = useState<Issue | null>(null);
   const currentListState = useState<ICurrentListState>({
@@ -48,6 +49,7 @@ const KanbanBoard: FC = () => {
 
   useEffect(() => {
     try {
+      if (todoList || inProgressList || doneList) return;
       getTodoIssues("facebook", "react").then((res) => {
         dispatch(updateTodoList(res));
       });
@@ -60,35 +62,56 @@ const KanbanBoard: FC = () => {
     } catch (err) {
       console.log(err);
     }
-  }, [dispatch]);
+  }, [dispatch, doneList, inProgressList, todoList]);
 
-  const commonProps = { currentCardState, currentListState, chosenItemStyles };
+  const commonProps = {
+    currentCardState,
+    currentListState,
+    chosenItemStyles,
+  };
 
   return (
     <Row style={{ boxSizing: "border-box" }} gutter={32}>
       <Col span={8}>
-        <CardList
-          list={todoList}
-          updateList={updateTodoList}
-          {...commonProps}
-        />
+        <div className={style.column}>
+          {todoList && (
+            <CardList
+              list={todoList}
+              updateList={updateTodoList}
+              {...commonProps}
+            />
+          )}
+        </div>
       </Col>
       <Col span={8}>
-        <CardList
-          list={inProgressList}
-          updateList={updateInProgressList}
-          {...commonProps}
-        />
+        <div className={style.column}>
+          {inProgressList && (
+            <CardList
+              list={inProgressList}
+              updateList={updateInProgressList}
+              {...commonProps}
+            />
+          )}
+        </div>
       </Col>
       <Col span={8}>
-        <CardList
-          list={doneList}
-          updateList={updateDoneList}
-          {...commonProps}
-        />
+        <div className={style.column}>
+          {doneList && (
+            <CardList
+              list={doneList}
+              updateList={updateDoneList}
+              {...commonProps}
+            />
+          )}
+        </div>
       </Col>
     </Row>
   );
 };
 
 export default KanbanBoard;
+
+// after first render
+// look at storage
+//      - if there is a lists -> hydrate by storage
+//      - if no -> hydrate by api

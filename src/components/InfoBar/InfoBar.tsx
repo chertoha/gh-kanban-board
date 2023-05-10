@@ -20,8 +20,6 @@ const InfoBar: FC = () => {
     return null;
   }
 
-  console.log(repoInfo);
-
   const {
     owner: { login: repoOwner, html_url: repoOwnerUrl },
     name: repoName,
@@ -31,9 +29,13 @@ const InfoBar: FC = () => {
 
   return (
     <Space direction="horizontal" style={{ padding: "10px 0 20px" }}>
-      <Link href={repoOwnerUrl}>{repoOwner}</Link>
+      <Link href={repoOwnerUrl} target="_blank">
+        {repoOwner}
+      </Link>
       <RightOutlined style={{ fontSize: "12px", color: "#0958d9" }} />
-      <Link href={repoUrl}>{repoName}</Link>
+      <Link href={repoUrl} target="_blank">
+        {repoName}
+      </Link>
       {starNumber && (
         <Space align="center" style={{ display: "flex", columnGap: "4px" }}>
           <StarOutlined style={{ fontSize: "16px", color: "#faad14" }} />

@@ -1,15 +1,15 @@
 import CardListItem from "./CardListItem";
 import CardListZeroItem from "./CardListZeroItem";
 import CardListEmptyItem from "./CardListEmptyItem";
-import style from "./CardList.module.css";
 import { List } from "antd";
 import { FC } from "react";
 import { ICardListProps } from "./types/props";
+import style from "./CardList.module.css";
 
 const CardList: FC<ICardListProps> = (props) => {
   const { list } = props;
   return (
-    <div className={style.column}>
+    <>
       {list.length > 0 ? (
         <List
           className={style.column__list}
@@ -24,7 +24,7 @@ const CardList: FC<ICardListProps> = (props) => {
       ) : (
         <CardListEmptyItem {...props} />
       )}
-    </div>
+    </>
   );
 };
 
