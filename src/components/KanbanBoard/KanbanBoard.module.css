@@ -1,0 +1,8 @@
+.column {
+  padding: 16px 16px;
+  height: 800px;
+
+  background-color: rgb(247, 241, 241);
+  border: 6px solid rgb(130, 127, 127);
+  border-radius: 15px;
+}
