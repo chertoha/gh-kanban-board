@@ -1,15 +1,15 @@
-import { Issue } from "types/types";
+import { Issue, RepoInfo } from "types/types";
 import { api, PARAMS } from "./api";
 
 type Args = [owner: string, repo: string];
 
-export const getRepoStars = async (
+export const getRepoInfo = async (
   owner: string,
   repo: string
-): Promise<number> => {
+): Promise<RepoInfo> => {
   const path = `/${owner}/${repo}`;
   const data = await api.fetchRepo(path);
-  return data.stargazers_count;
+  return data;
 };
 
 export const getTodoIssues = async (...args: Args): Promise<Issue[]> => {

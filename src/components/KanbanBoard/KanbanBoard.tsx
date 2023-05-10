@@ -1,7 +1,7 @@
 import CardList from "components/CardList";
 import { Col, Row } from "antd";
 import { useAppDispatch, useAppSelector } from "hooks/hooks";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   selectDoneList,
   selectInProgressList,
@@ -14,16 +14,15 @@ import {
   updateDoneList,
   CommonIssuesActionsCreatorType,
 } from "redux/issues/slice";
-import {
-  todoListInit,
-  inProgressListInit,
-  doneListInit,
-} from "utils/tempInitialState";
+// import {
+//   todoListInit,
+//   inProgressListInit,
+//   doneListInit,
+// } from "utils/tempInitialState";
 import { useChosenItemStyles } from "components/CardList/hooks/useChosenItemStyles";
-import { api } from "services/api";
 import {
   getDoneIssues,
-  getRepoStars,
+  getInProgressIssues,
   getTodoIssues,
 } from "services/kanbanDataService";
 
@@ -47,33 +46,21 @@ const KanbanBoard: FC = () => {
 
   const chosenItemStyles = useChosenItemStyles();
 
-  // useEffect(() => {
-  //   try {
-  //     setTimeout(() => {
-  //       dispatch(updateTodoList(todoListInit));
-  //     }, 100);
-  //     setTimeout(() => {
-  //       dispatch(updateInProgressList(inProgressListInit));
-  //     }, 200);
-  //     setTimeout(() => {
-  //       dispatch(updateDoneList(doneListInit));
-  //     }, 300);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }, [dispatch]);
-
   useEffect(() => {
     try {
-      const testApi = async () => {
-        const data = await getDoneIssues("facebook", "react");
-        console.log(data);
-      };
-      testApi();
+      getTodoIssues("facebook", "react").then((res) => {
+        dispatch(updateTodoList(res));
+      });
+      getInProgressIssues("facebook", "react").then((res) => {
+        dispatch(updateInProgressList(res));
+      });
+      getDoneIssues("facebook", "react").then((res) => {
+        dispatch(updateDoneList(res));
+      });
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [dispatch]);
 
   const commonProps = { currentCardState, currentListState, chosenItemStyles };
 

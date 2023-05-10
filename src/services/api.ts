@@ -12,37 +12,9 @@ export const PARAMS = {
 };
 
 export const api = {
-  // getStars: async (owner: string, repo: string): Promise<number> => {
-  //   const response = await axios.get(`/${owner}/${repo}`);
-  //   return response.data.stargazers_count;
-  // },
-
-  // getNewIssues: async (owner: string, repo: string): Promise<Issue[]> => {
-  //   const response = await axios.get(`/${owner}/${repo}/issues`, {
-  //     params: { ...PARAMS.NEW_ISSUES },
-  //   });
-  //   return response.data;
-  // },
-
-  // getInProgressIssues: async (
-  //   owner: string,
-  //   repo: string
-  // ): Promise<Issue[]> => {
-  //   const response = await axios.get(`/${owner}/${repo}/issues`, {
-  //     params: { ...PARAMS.IN_PROGRESS_ISSUES },
-  //   });
-  //   return response.data;
-  // },
-
-  // getClosedIssues: async (owner: string, repo: string): Promise<Issue[]> => {
-  //   const response = await axios.get(`/${owner}/${repo}/issues`, {
-  //     params: { ...PARAMS.CLOSED_ISSUES },
-  //   });
-  //   return response.data;
-  // },
-
   fetchRepo: async (path: string, params?: object) => {
     const response = await axios.get(`${path}`, { params });
+    // console.log(response.data);
     return response.data;
   },
 
