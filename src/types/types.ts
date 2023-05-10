@@ -13,10 +13,12 @@ export type Issue = {
 
 export type RepoOwner = {
   login: string;
+  html_url: string;
 };
 
 export type RepoInfo = {
   name: string;
   owner: RepoOwner;
   stargazers_count: number;
+  html_url: string;
 };

@@ -20,17 +20,20 @@ const InfoBar: FC = () => {
     return null;
   }
 
+  console.log(repoInfo);
+
   const {
-    owner: { login: repoOwner },
+    owner: { login: repoOwner, html_url: repoOwnerUrl },
     name: repoName,
     stargazers_count: starNumber,
+    html_url: repoUrl,
   } = repoInfo;
 
   return (
     <Space direction="horizontal" style={{ padding: "10px 0 20px" }}>
-      <Link href="">{repoOwner}</Link>
+      <Link href={repoOwnerUrl}>{repoOwner}</Link>
       <RightOutlined style={{ fontSize: "12px", color: "#0958d9" }} />
-      <Link href="">{repoName}</Link>
+      <Link href={repoUrl}>{repoName}</Link>
       {starNumber && (
         <Space align="center" style={{ display: "flex", columnGap: "4px" }}>
           <StarOutlined style={{ fontSize: "16px", color: "#faad14" }} />
