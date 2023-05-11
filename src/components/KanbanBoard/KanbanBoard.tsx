@@ -12,7 +12,9 @@ import {
   updateTodoList,
   updateInProgressList,
   updateDoneList,
+  updateAll,
   CommonIssuesActionsCreatorType,
+  IDesksState,
 } from "redux/issues/slice";
 // import {
 //   todoListInit,
@@ -26,11 +28,15 @@ import {
   getTodoIssues,
 } from "services/kanbanDataService";
 import style from "./KanbanBoard.module.css";
+import { StorageService } from "services/StorageService";
 
 export interface ICurrentListState {
   currentList: Issue[] | null;
   updateCurrentList: CommonIssuesActionsCreatorType | null;
 }
+
+const STORAGE_KEY = "kanban_issues";
+const storage = new StorageService(STORAGE_KEY);
 
 const KanbanBoard: FC = () => {
   const dispatch = useAppDispatch();
@@ -47,22 +53,53 @@ const KanbanBoard: FC = () => {
 
   const chosenItemStyles = useChosenItemStyles();
 
+  // useEffect(() => {
+  //   try {
+  //     if (todoList || inProgressList || doneList) return;
+  // getTodoIssues("facebook", "react").then((res) => {
+  //   dispatch(updateTodoList(res));
+  // });
+  // getInProgressIssues("facebook", "react").then((res) => {
+  //   dispatch(updateInProgressList(res));
+  // });
+  // getDoneIssues("facebook", "react").then((res) => {
+  //   dispatch(updateDoneList(res));
+  // });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }, [dispatch, doneList, inProgressList, todoList]);
+
   useEffect(() => {
-    try {
-      if (todoList || inProgressList || doneList) return;
-      getTodoIssues("facebook", "react").then((res) => {
-        dispatch(updateTodoList(res));
-      });
-      getInProgressIssues("facebook", "react").then((res) => {
-        dispatch(updateInProgressList(res));
-      });
-      getDoneIssues("facebook", "react").then((res) => {
-        dispatch(updateDoneList(res));
-      });
-    } catch (err) {
-      console.log(err);
+    const issues: IDesksState = storage.get();
+
+    if (issues) {
+      dispatch(updateAll(issues));
+      return;
     }
-  }, [dispatch, doneList, inProgressList, todoList]);
+
+    const owner = "facebook";
+    const repo = "react";
+
+    getTodoIssues(owner, repo).then((res) => {
+      dispatch(updateTodoList(res));
+    });
+    getInProgressIssues(owner, repo).then((res) => {
+      dispatch(updateInProgressList(res));
+    });
+    getDoneIssues(owner, repo).then((res) => {
+      dispatch(updateDoneList(res));
+    });
+    console.log("first");
+  }, [dispatch]);
+
+  //
+  useEffect(() => {
+    if (!todoList || !inProgressList || !doneList) return;
+    console.log("every");
+    const issues: IDesksState = { todoList, inProgressList, doneList };
+    storage.set(issues);
+  }, [todoList, inProgressList, doneList]);
 
   const commonProps = {
     currentCardState,
