@@ -3,11 +3,11 @@ import { FC } from "react";
 
 const SearchBar: FC = () => {
   const onFinish = (values: any) => {
-    // console.log("Success:", values);
+    console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    // console.log("Failed:", errorInfo);
+    console.log("Failed:", errorInfo);
   };
 
   return (
@@ -21,7 +21,11 @@ const SearchBar: FC = () => {
       >
         <Row gutter={16}>
           <Col flex="auto">
-            <Form.Item style={{ margin: 0 }}>
+            <Form.Item
+              style={{ margin: 0 }}
+              name="repoUrl"
+              rules={[{ required: true, message: "Please input repo url!" }]}
+            >
               <Input placeholder="Enter repo URL" />
             </Form.Item>
           </Col>
