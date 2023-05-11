@@ -11,6 +11,12 @@ export type Issue = {
   comments: number;
 };
 
+export type IKanbanLists = {
+  todoList: Issue[] | null;
+  inProgressList: Issue[] | null;
+  doneList: Issue[] | null;
+};
+
 export type RepoOwner = {
   login: string;
   html_url: string;

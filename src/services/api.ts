@@ -1,11 +1,14 @@
 import axios from "axios";
 import { Issue } from "types/types";
 
+export const PARAMS = {
+  NEW_ISSUES: { state: "open", assignee: "none" },
+  IN_PROGRESS_ISSUES: { state: "open", assignee: "*" },
+  CLOSED_ISSUES: { state: "closed" },
+};
+
 const BASE_URL = process.env.REACT_APP_GH_API_BASE_REPO_URL;
 const TOKEN = process.env.REACT_APP_GH_REPO_TOKEN;
-
-// axios.defaults.baseURL = BASE_URL;
-// axios.defaults.headers.common["Authorization"] = `Bearer ${TOKEN}`;
 
 const instance = axios.create({
   baseURL: BASE_URL,
@@ -13,12 +16,6 @@ const instance = axios.create({
     Authorization: `Bearer ${TOKEN}`,
   },
 });
-
-export const PARAMS = {
-  NEW_ISSUES: { state: "open", assignee: "none" },
-  IN_PROGRESS_ISSUES: { state: "open", assignee: "*" },
-  CLOSED_ISSUES: { state: "closed" },
-};
 
 export const api = {
   fetchRepo: async (path: string, params?: object) => {

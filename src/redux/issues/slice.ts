@@ -1,14 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Issue } from "types/types";
+import { IKanbanLists, Issue } from "types/types";
 
-export interface IDesksState {
-  todoList: Issue[] | null;
-  inProgressList: Issue[] | null;
-  doneList: Issue[] | null;
-}
-
-const initialState: IDesksState = {
+const initialState: IKanbanLists = {
   todoList: null,
   inProgressList: null,
   doneList: null,
@@ -32,7 +26,7 @@ export const issuesSlice = createSlice({
       state.doneList = action.payload;
     },
 
-    updateAll: (state, action: PayloadAction<IDesksState>) => {
+    updateAll: (state, action: PayloadAction<IKanbanLists>) => {
       state.todoList = action.payload.todoList;
       state.inProgressList = action.payload.inProgressList;
       state.doneList = action.payload.doneList;
