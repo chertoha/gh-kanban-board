@@ -1,5 +1,9 @@
 import { Button, Col, Form, Input, Row } from "antd";
 import { FC } from "react";
+import {
+  SEARCH_VALIDATION_PATTERN,
+  SEARCH_VALIDATION_MESSAGE,
+} from "./SearchBar.constants";
 
 const SearchBar: FC = () => {
   const onFinish = (values: any) => {
@@ -24,7 +28,13 @@ const SearchBar: FC = () => {
             <Form.Item
               style={{ margin: 0 }}
               name="repoUrl"
-              rules={[{ required: true, message: "Please input repo url!" }]}
+              rules={[
+                { required: true, message: SEARCH_VALIDATION_MESSAGE.REQUIRED },
+                {
+                  pattern: SEARCH_VALIDATION_PATTERN,
+                  message: SEARCH_VALIDATION_MESSAGE.MATCH_EXPRESSION,
+                },
+              ]}
             >
               <Input placeholder="Enter repo URL" />
             </Form.Item>
