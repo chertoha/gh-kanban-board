@@ -2,7 +2,7 @@ import { ICurrentListState } from "components/KanbanBoard/KanbanBoard";
 import { Dispatch, SetStateAction } from "react";
 import { CommonIssuesActionsCreatorType } from "redux/issues/slice";
 import { Issue } from "types/types";
-import { ChosenItemStylesHook } from "../hooks/useChosenItemStyles";
+import { ChosenItemStylesHook } from "../../../hooks/useChosenItemStyles";
 
 export interface ICardListProps {
   list: Issue[];
