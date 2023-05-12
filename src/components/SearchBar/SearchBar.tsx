@@ -1,13 +1,21 @@
 import { Button, Col, Form, Input, Row } from "antd";
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import {
   SEARCH_VALIDATION_PATTERN,
   SEARCH_VALIDATION_MESSAGE,
 } from "./SearchBar.constants";
 
-const SearchBar: FC = () => {
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
+type FormValues = {
+  repoUrl: string;
+};
+
+interface ISearchBarProps {
+  onSearch: Dispatch<SetStateAction<string>>;
+}
+
+const SearchBar: FC<ISearchBarProps> = ({ onSearch }) => {
+  const onFinish = ({ repoUrl }: FormValues) => {
+    onSearch(repoUrl);
   };
 
   const onFinishFailed = (errorInfo: any) => {

@@ -4,8 +4,16 @@ import KanbanBoard from "components/KanbanBoard";
 import SearchBar from "components/SearchBar";
 import { FC, useState } from "react";
 
+const SEARCH_URL_BASE_PREFIX = "https://github.com/";
+
 const Home: FC = () => {
   const [searchValue, setSearch] = useState("");
+
+  const parseSearchValue = (searchUrl: string) => {
+    return searchUrl.replace(SEARCH_URL_BASE_PREFIX, "");
+  };
+
+  const repoPath = parseSearchValue(searchValue);
 
   return (
     <main>
@@ -13,9 +21,9 @@ const Home: FC = () => {
 
       <Row justify="center">
         <Col span="16">
-          <SearchBar />
-          <InfoBar />
-          <KanbanBoard />
+          <SearchBar onSearch={setSearch} />
+          <InfoBar repoPath={repoPath} />
+          <KanbanBoard repoPath={repoPath} />
         </Col>
       </Row>
     </main>
