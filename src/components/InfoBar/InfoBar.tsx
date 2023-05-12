@@ -15,11 +15,11 @@ const InfoBar: FC<IInfoBar> = ({ repoPath }) => {
   useEffect(() => {
     if (!repoPath) return;
 
-    try {
-      getRepoInfo(repoPath).then(setRepoInfo);
-    } catch (err) {
-      console.log(err);
-    }
+    getRepoInfo(repoPath)
+      .then(setRepoInfo)
+      .catch((err) => {
+        console.log("InfoBBar err", err);
+      });
   }, [repoPath]);
 
   if (!repoInfo) {

@@ -11,9 +11,10 @@ type FormValues = {
 
 interface ISearchBarProps {
   onSearch: Dispatch<SetStateAction<string>>;
+  value: string;
 }
 
-const SearchBar: FC<ISearchBarProps> = ({ onSearch }) => {
+const SearchBar: FC<ISearchBarProps> = ({ onSearch, value }) => {
   const onFinish = ({ repoUrl }: FormValues) => {
     onSearch(repoUrl);
   };
@@ -34,6 +35,7 @@ const SearchBar: FC<ISearchBarProps> = ({ onSearch }) => {
         <Row gutter={16}>
           <Col flex="auto">
             <Form.Item
+              initialValue={value}
               style={{ margin: 0 }}
               name="repoUrl"
               rules={[

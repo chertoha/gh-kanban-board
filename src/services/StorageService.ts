@@ -1,5 +1,3 @@
-import { IKanbanLists } from "types/types";
-
 export class StorageService<T> {
   constructor(public readonly key: string) {}
 
