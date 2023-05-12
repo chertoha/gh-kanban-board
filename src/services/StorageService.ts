@@ -15,6 +15,12 @@ export class StorageService<T> {
   }
 }
 
+/*
+mainKey : {
+  subKey: {value}
+  ...
+}
+*/
 export class ListStorageService<T> {
   constructor(public readonly mainKey: string) {}
 
@@ -24,7 +30,6 @@ export class ListStorageService<T> {
       localStorage.setItem(this.mainKey, JSON.stringify({ [subKey]: value }));
       return;
     }
-
     items[subKey] = value;
     localStorage.setItem(this.mainKey, JSON.stringify(items));
   }
@@ -34,7 +39,6 @@ export class ListStorageService<T> {
     if (!itemsJSON) return null;
 
     const items = JSON.parse(itemsJSON);
-
     if (!items[subKey]) return null;
 
     return items[subKey];
@@ -49,14 +53,3 @@ export class ListStorageService<T> {
     return itemsJSON ? JSON.parse(itemsJSON) : null;
   }
 }
-
-/*
-mainKey : {
-  subKey: {doneList:[], inProgressList[], todoList:[]}
-  subKey: {doneList:[], inProgressList[], todoList:[]}
-  subKey: {doneList:[], inProgressList[], todoList:[]}
-  subKey: {doneList:[], inProgressList[], todoList:[]}
-}
-
-
-*/
