@@ -1,3 +1,5 @@
+import { IKanbanLists } from "types/types";
+
 export class StorageService<T> {
   constructor(public readonly key: string) {}
 
@@ -14,3 +16,49 @@ export class StorageService<T> {
     localStorage.removeItem(this.key);
   }
 }
+
+export class ListStorageService<T> {
+  constructor(public readonly mainKey: string) {}
+
+  public set(subKey: string, value: T) {
+    const items = this.getParsedItems();
+    if (!items) {
+      localStorage.setItem(this.mainKey, JSON.stringify({ [subKey]: value }));
+      return;
+    }
+
+    items[subKey] = value;
+    localStorage.setItem(this.mainKey, JSON.stringify(items));
+  }
+
+  public get(subKey: string): T | null {
+    const itemsJSON = localStorage.getItem(this.mainKey);
+    if (!itemsJSON) return null;
+
+    const items = JSON.parse(itemsJSON);
+
+    if (!items[subKey]) return null;
+
+    return items[subKey];
+  }
+
+  public remove() {
+    localStorage.removeItem(this.mainKey);
+  }
+
+  private getParsedItems() {
+    const itemsJSON = localStorage.getItem(this.mainKey);
+    return itemsJSON ? JSON.parse(itemsJSON) : null;
+  }
+}
+
+/*
+mainKey : {
+  subKey: {doneList:[], inProgressList[], todoList:[]}
+  subKey: {doneList:[], inProgressList[], todoList:[]}
+  subKey: {doneList:[], inProgressList[], todoList:[]}
+  subKey: {doneList:[], inProgressList[], todoList:[]}
+}
+
+
+*/

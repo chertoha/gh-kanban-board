@@ -14,6 +14,8 @@ const Home: FC = () => {
   };
 
   const repoPath = parseSearchValue(searchValue);
+  // const repoPath = parseSearchValue("https://github.com/facebook/react");
+  // const repoPath = parseSearchValue("https://github.com/imartinez/privateGPT");
 
   return (
     <main>

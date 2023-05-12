@@ -22,10 +22,10 @@ import {
   getTodoIssues,
 } from "services/kanbanDataService";
 import style from "./KanbanBoard.module.css";
-import { StorageService } from "services/StorageService";
+import { ListStorageService } from "services/StorageService";
 import { STORAGE_KEY } from "./KanbanBoard.constants";
 
-const storage = new StorageService<IKanbanLists>(STORAGE_KEY);
+const storage = new ListStorageService<IKanbanLists>(STORAGE_KEY);
 
 export interface ICurrentListState {
   currentList: Issue[] | null;
@@ -54,7 +54,7 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
   useEffect(() => {
     if (!repoPath) return;
 
-    const issues = storage.get();
+    const issues = storage.get(repoPath);
     if (issues) {
       dispatch(updateAll(issues));
       return;
@@ -77,10 +77,11 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
 
   //
   useEffect(() => {
+    if (!repoPath) return;
     if (!todoList || !inProgressList || !doneList) return;
     const issues: IKanbanLists = { todoList, inProgressList, doneList };
-    storage.set(issues);
-  }, [todoList, inProgressList, doneList]);
+    storage.set(repoPath, issues);
+  }, [todoList, inProgressList, doneList, repoPath]);
 
   const commonProps = {
     currentCardState,
