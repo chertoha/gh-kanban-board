@@ -1,9 +1,10 @@
-import { RightOutlined, StarOutlined } from "@ant-design/icons";
+import { RightOutlined, StarFilled, StarOutlined } from "@ant-design/icons";
 import { Space } from "antd";
 import Link from "antd/es/typography/Link";
 import { FC, useEffect, useState } from "react";
 import { getRepoInfo } from "services/kanbanDataService";
 import { RepoInfo } from "types/types";
+import { getShortNumberView } from "utils/getShortNumberView";
 
 interface IInfoBar {
   repoPath: string;
@@ -34,18 +35,33 @@ const InfoBar: FC<IInfoBar> = ({ repoPath }) => {
   } = repoInfo;
 
   return (
-    <Space direction="horizontal" style={{ padding: "10px 0 20px" }}>
-      <Link href={repoOwnerUrl} target="_blank">
+    <Space
+      direction="horizontal"
+      style={{ padding: "10px 0 20px", fontSize: "18px" }}
+    >
+      <Link
+        href={repoOwnerUrl}
+        target="_blank"
+        style={{ fontSize: "18px", textTransform: "capitalize" }}
+      >
         {repoOwner}
       </Link>
-      <RightOutlined style={{ fontSize: "12px", color: "#0958d9" }} />
-      <Link href={repoUrl} target="_blank">
+      <RightOutlined style={{ fontSize: "14px", color: "#0958d9" }} />
+
+      <Link
+        href={repoUrl}
+        target="_blank"
+        style={{ fontSize: "18px", textTransform: "capitalize" }}
+      >
         {repoName}
       </Link>
       {starNumber && (
-        <Space align="center" style={{ display: "flex", columnGap: "4px" }}>
-          <StarOutlined style={{ fontSize: "16px", color: "#faad14" }} />
-          {starNumber} stars
+        <Space
+          align="center"
+          style={{ display: "flex", columnGap: "4px", marginLeft: "20px" }}
+        >
+          <StarFilled style={{ fontSize: "20px", color: "#faad14" }} />
+          {getShortNumberView(starNumber)} stars
         </Space>
       )}
     </Space>
