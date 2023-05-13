@@ -22,17 +22,21 @@ import {
   getTodoIssues,
 } from "services/kanbanDataService";
 import style from "./KanbanBoard.module.css";
-import { StorageService } from "services/StorageService";
+import { ListStorageService } from "services/StorageService";
 import { STORAGE_KEY } from "./KanbanBoard.constants";
+
+const storage = new ListStorageService<IKanbanLists>(STORAGE_KEY);
 
 export interface ICurrentListState {
   currentList: Issue[] | null;
   updateCurrentList: CommonIssuesActionsCreatorType | null;
 }
 
-const storage = new StorageService<IKanbanLists>(STORAGE_KEY);
+interface IKanbanBoard {
+  repoPath: string;
+}
 
-const KanbanBoard: FC = () => {
+const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
   const dispatch = useAppDispatch();
 
   const todoList: Issue[] | null = useAppSelector(selectTodoList);
@@ -48,33 +52,36 @@ const KanbanBoard: FC = () => {
   const chosenItemStyles = useChosenItemStyles();
 
   useEffect(() => {
-    const issues = storage.get();
+    if (!repoPath) return;
 
+    const issues = storage.get(repoPath);
     if (issues) {
       dispatch(updateAll(issues));
       return;
     }
 
-    const owner = "facebook";
-    const repo = "react";
-
-    getTodoIssues(owner, repo).then((res) => {
-      dispatch(updateTodoList(res));
-    });
-    getInProgressIssues(owner, repo).then((res) => {
-      dispatch(updateInProgressList(res));
-    });
-    getDoneIssues(owner, repo).then((res) => {
-      dispatch(updateDoneList(res));
-    });
-  }, [dispatch]);
+    try {
+      getTodoIssues(repoPath).then((res) => {
+        dispatch(updateTodoList(res));
+      });
+      getInProgressIssues(repoPath).then((res) => {
+        dispatch(updateInProgressList(res));
+      });
+      getDoneIssues(repoPath).then((res) => {
+        dispatch(updateDoneList(res));
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [dispatch, repoPath]);
 
   //
   useEffect(() => {
+    if (!repoPath) return;
     if (!todoList || !inProgressList || !doneList) return;
     const issues: IKanbanLists = { todoList, inProgressList, doneList };
-    storage.set(issues);
-  }, [todoList, inProgressList, doneList]);
+    storage.set(repoPath, issues);
+  }, [todoList, inProgressList, doneList, repoPath]);
 
   const commonProps = {
     currentCardState,

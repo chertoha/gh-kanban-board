@@ -5,16 +5,22 @@ import { FC, useEffect, useState } from "react";
 import { getRepoInfo } from "services/kanbanDataService";
 import { RepoInfo } from "types/types";
 
-const InfoBar: FC = () => {
+interface IInfoBar {
+  repoPath: string;
+}
+
+const InfoBar: FC<IInfoBar> = ({ repoPath }) => {
   const [repoInfo, setRepoInfo] = useState<RepoInfo | null>(null);
 
   useEffect(() => {
-    try {
-      getRepoInfo("facebook", "react").then(setRepoInfo);
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+    if (!repoPath) return;
+
+    getRepoInfo(repoPath)
+      .then(setRepoInfo)
+      .catch((err) => {
+        console.log("InfoBBar err", err);
+      });
+  }, [repoPath]);
 
   if (!repoInfo) {
     return null;
