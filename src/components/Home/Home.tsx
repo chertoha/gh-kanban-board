@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import InfoBar from "components/InfoBar";
+import InfoBar from "components/InfoBar/InfoBar";
 import KanbanBoard from "components/KanbanBoard";
 import SearchBar from "components/SearchBar";
 import { FC, useEffect, useState } from "react";
