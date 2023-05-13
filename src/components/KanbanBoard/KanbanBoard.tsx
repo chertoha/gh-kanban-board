@@ -23,9 +23,9 @@ import {
 } from "services/kanbanDataService";
 import style from "./KanbanBoard.module.css";
 import { ListStorageService } from "services/StorageService";
-import { STORAGE_KEY } from "./KanbanBoard.constants";
+import { ISSUES_STORAGE_KEY } from "utils/constants";
 
-const storage = new ListStorageService<IKanbanLists>(STORAGE_KEY);
+const storage = new ListStorageService<IKanbanLists>(ISSUES_STORAGE_KEY);
 
 export interface ICurrentListState {
   currentList: Issue[] | null;
@@ -75,7 +75,6 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
     }
   }, [dispatch, repoPath]);
 
-  //
   useEffect(() => {
     if (!repoPath) return;
     if (!todoList || !inProgressList || !doneList) return;

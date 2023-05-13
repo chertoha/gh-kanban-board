@@ -1,9 +1,9 @@
 import { Button, Col, Form, Input, Row } from "antd";
 import { Dispatch, FC, SetStateAction } from "react";
 import {
-  SEARCH_VALIDATION_PATTERN,
   SEARCH_VALIDATION_MESSAGE,
-} from "./SearchBar.constants";
+  SEARCH_VALIDATION_PATTERN,
+} from "utils/constants";
 
 type FormValues = {
   repoUrl: string;
