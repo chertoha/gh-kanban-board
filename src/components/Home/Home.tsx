@@ -22,7 +22,7 @@ const Home: FC = () => {
   const repoPath = parseSearchValue(searchValue);
 
   return (
-    <main>
+    <main style={{ paddingTop: "50px" }}>
       <h1 hidden>Github issues kanban board</h1>
 
       <Row justify="center">

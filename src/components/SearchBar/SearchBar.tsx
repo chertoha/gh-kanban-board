@@ -46,12 +46,21 @@ const SearchBar: FC<ISearchBarProps> = ({ onSearch, value }) => {
                 },
               ]}
             >
-              <Input placeholder="Enter repo URL" />
+              <Input
+                placeholder="Enter repo URL"
+                size="large"
+                style={{ fontSize: "20px", color: "#8c8c8c" }}
+              />
             </Form.Item>
           </Col>
           <Col>
             <Form.Item style={{ margin: 0 }}>
-              <Button type="default" htmlType="submit">
+              <Button
+                type="default"
+                htmlType="submit"
+                size="large"
+                style={{ fontSize: "20px", height: "100%", color: "#8c8c8c" }}
+              >
                 Load issues
               </Button>
             </Form.Item>
