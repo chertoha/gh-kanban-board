@@ -24,6 +24,7 @@ import {
 import style from "./KanbanBoard.module.css";
 import { ListStorageService } from "services/StorageService";
 import { ISSUES_STORAGE_KEY } from "utils/constants";
+import Title from "antd/es/typography/Title";
 
 const storage = new ListStorageService<IKanbanLists>(ISSUES_STORAGE_KEY);
 
@@ -91,6 +92,9 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
   return (
     <Row style={{ boxSizing: "border-box" }} gutter={32}>
       <Col span={8}>
+        <Title level={2} className={style.title}>
+          ToDo
+        </Title>
         <div className={style.column}>
           {todoList && (
             <CardList
@@ -102,6 +106,9 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
         </div>
       </Col>
       <Col span={8}>
+        <Title level={2} className={style.title}>
+          In Progress
+        </Title>
         <div className={style.column}>
           {inProgressList && (
             <CardList
@@ -113,6 +120,9 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
         </div>
       </Col>
       <Col span={8}>
+        <Title level={2} className={style.title}>
+          Done
+        </Title>
         <div className={style.column}>
           {doneList && (
             <CardList
@@ -128,8 +138,3 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
 };
 
 export default KanbanBoard;
-
-// after first render
-// look at storage
-//      - if there is a lists -> hydrate by storage
-//      - if no -> hydrate by api

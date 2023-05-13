@@ -6,3 +6,10 @@
   border: 6px solid rgb(130, 127, 127);
   border-radius: 15px;
 }
+
+.title {
+  margin: 0;
+  font-size: 20px !important;
+  color: #8c8c8c !important;
+  text-align: center;
+}

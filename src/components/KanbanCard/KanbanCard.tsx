@@ -2,6 +2,7 @@ import Paragraph from "antd/es/typography/Paragraph";
 import { FC } from "react";
 import { Card } from "antd";
 import { Issue } from "types/types";
+import { getSpecialDateView } from "utils/getSpecialDateView";
 
 interface IKanbanCardProps {
   issue: Issue;
@@ -24,7 +25,7 @@ const KanbanCard: FC<IKanbanCardProps> = ({ issue }) => {
       style={{ width: "100%", cursor: "grab", border: "3px solid #000" }}
     >
       <Paragraph>
-        #{number} {created_at}
+        #{number} opened {getSpecialDateView(created_at)}
       </Paragraph>
       <Paragraph>
         {login} | Comments: {comments}
