@@ -5,11 +5,20 @@
 }
 
 .column__list::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
   background-color: transparent;
 }
 
 .column__list::-webkit-scrollbar-thumb {
-  background-color: rgb(160, 159, 159);
+  /* background-color: rgb(160, 159, 159); */
+  /* background-color: #455266; */
+  background-color: rgba(69, 82, 102, 0.2);
   border-radius: 4px;
 }
+
+/* .column__item {
+} */
+
+/* .column__item.dragged > div.ant-card {
+  background-color: aqua !important;
+} */

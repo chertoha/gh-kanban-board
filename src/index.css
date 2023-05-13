@@ -7,3 +7,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.column__item.dragged > .kanbanCard {
+  box-shadow: inset 0px 0px 33px 6px rgba(50, 25, 255, 0.1);
+}

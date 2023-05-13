@@ -1,4 +1,5 @@
 import KanbanCard from "components/KanbanCard";
+import style from "./CardList.module.css";
 import { itemDragStyles } from "./utils/setItemDragStyles";
 import { List } from "antd";
 import { useAppDispatch } from "hooks/hooks";
@@ -63,6 +64,8 @@ const CardListItem: FC<ICardListProps> = ({
 
   return (
     <List.Item
+      // className={style.column__item}
+      className="column__item"
       style={{ border: "none" }}
       draggable={true}
       onDragStart={(e) => dragStartHandler(e, issue, list)}
