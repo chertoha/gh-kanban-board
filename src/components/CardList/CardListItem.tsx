@@ -4,7 +4,7 @@ import { List } from "antd";
 import { useAppDispatch } from "hooks/hooks";
 import { DragEvent, FC } from "react";
 import { Issue } from "types/types";
-import { ICardListProps } from "./types/props";
+import { ICardListProps } from "../../types/props";
 import { calculateAfterDropLists } from "./utils/calculateAfterDropLists";
 
 const CardListItem: FC<ICardListProps> = ({
