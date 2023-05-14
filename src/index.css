@@ -6,15 +6,27 @@ body {
   font-family: "PT Serif", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-color: #455266; */
 }
-/* 
+
 .column__item {
-  border: none;
-} */
+  position: relative;
+}
 
 .column__item.dragged > .kanbanCard {
   box-shadow: inset 0px 0px 33px 6px rgba(50, 25, 255, 0.1);
 }
+
+/* .column__item.dragged-over ::after {
+  position: absolute;
+  height: 10px;
+  width: 100%;
+
+  left: 0;
+  bottom: -18px;
+
+  border-bottom: 10px dotted rgba(50, 25, 255, 0.1) !important;
+} */
 
 .column__item.dragged-over {
   border-bottom: 10px dotted rgba(50, 25, 255, 0.1) !important;
