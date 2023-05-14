@@ -64,16 +64,28 @@ const CardListItem: FC<ICardListProps> = ({
 
   return (
     <List.Item
-      // className={style.column__item}
       className="column__item"
       style={{ border: "none" }}
       draggable={true}
       onDragStart={(e) => dragStartHandler(e, issue, list)}
-      onDragLeave={itemDragStyles.remove}
+      onDragLeave={(e) => {
+        const cardRect = e.currentTarget.getBoundingClientRect();
+        const isMouseOverCard =
+          e.clientX >= cardRect.left &&
+          e.clientX <= cardRect.right &&
+          e.clientY >= cardRect.top &&
+          e.clientY <= cardRect.bottom;
+        if (!isMouseOverCard) {
+          itemDragStyles.remove(e);
+        }
+      }}
       onDragEnd={(e) => dragEndHandler(e)}
       onDragOver={(e) => {
         e.preventDefault();
         itemDragStyles.apply(e);
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.classList.remove("dragged-over");
       }}
       onDrop={(e) => dropHandler(e, issue, list)}
     >

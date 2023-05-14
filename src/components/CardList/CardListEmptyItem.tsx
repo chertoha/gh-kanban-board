@@ -42,6 +42,7 @@ const CardListEmptyItem: FC<ICardListProps> = ({
   };
   return (
     <div
+      className="column__item"
       style={{
         height: "100%",
         display: "flex",

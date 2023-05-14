@@ -92,10 +92,10 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
   return (
     <Row style={{ boxSizing: "border-box" }} gutter={32}>
       <Col span={8}>
-        <Title level={2} className={style.title}>
-          ToDo
-        </Title>
         <div className={style.column}>
+          <Title level={2} className={style.title}>
+            ToDo
+          </Title>
           {todoList && (
             <CardList
               list={todoList}
@@ -106,10 +106,10 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
         </div>
       </Col>
       <Col span={8}>
-        <Title level={2} className={style.title}>
-          In Progress
-        </Title>
         <div className={style.column}>
+          <Title level={2} className={style.title}>
+            In Progress
+          </Title>
           {inProgressList && (
             <CardList
               list={inProgressList}
@@ -120,10 +120,10 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
         </div>
       </Col>
       <Col span={8}>
-        <Title level={2} className={style.title}>
-          Done
-        </Title>
         <div className={style.column}>
+          <Title level={2} className={style.title}>
+            Done
+          </Title>
           {doneList && (
             <CardList
               list={doneList}

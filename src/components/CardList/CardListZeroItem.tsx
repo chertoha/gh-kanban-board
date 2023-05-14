@@ -43,6 +43,7 @@ const CardListZeroItem: FC<ICardListProps> = ({
 
   return (
     <List.Item
+      className="column__item"
       style={{ border: "none" }}
       draggable={true}
       onDragStart={(e) => {
