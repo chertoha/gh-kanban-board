@@ -4,7 +4,7 @@ import { List } from "antd";
 import { useAppDispatch } from "hooks/hooks";
 import { DragEvent, FC } from "react";
 import { Issue } from "types/types";
-import { ICardListProps } from "./types/props";
+import { ICardListProps } from "../../types/props";
 import { calculateAfterDropLists } from "./utils/calculateAfterDropLists";
 
 const CardListItem: FC<ICardListProps> = ({
@@ -59,14 +59,27 @@ const CardListItem: FC<ICardListProps> = ({
     setCurrentListState({ currentList: null, updateCurrentList: null });
   };
 
+  const leaveHandler = (e: DragEvent<HTMLDivElement>) => {
+    const cardRect = e.currentTarget.getBoundingClientRect();
+    const isMouseOverCard =
+      e.clientX >= cardRect.left + 30 &&
+      e.clientX <= cardRect.right - 30 &&
+      e.clientY >= cardRect.top + 30 &&
+      e.clientY <= cardRect.bottom - 30;
+    if (!isMouseOverCard) {
+      itemDragStyles.remove(e);
+    }
+  };
+
   if (!issue) return null;
 
   return (
     <List.Item
+      className="column__item"
       style={{ border: "none" }}
       draggable={true}
       onDragStart={(e) => dragStartHandler(e, issue, list)}
-      onDragLeave={itemDragStyles.remove}
+      onDragLeave={(e) => leaveHandler(e)}
       onDragEnd={(e) => dragEndHandler(e)}
       onDragOver={(e) => {
         e.preventDefault();

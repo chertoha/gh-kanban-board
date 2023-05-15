@@ -23,9 +23,10 @@ import {
 } from "services/kanbanDataService";
 import style from "./KanbanBoard.module.css";
 import { ListStorageService } from "services/StorageService";
-import { STORAGE_KEY } from "./KanbanBoard.constants";
+import { ISSUES_STORAGE_KEY } from "utils/constants";
+import Title from "antd/es/typography/Title";
 
-const storage = new ListStorageService<IKanbanLists>(STORAGE_KEY);
+const storage = new ListStorageService<IKanbanLists>(ISSUES_STORAGE_KEY);
 
 export interface ICurrentListState {
   currentList: Issue[] | null;
@@ -75,7 +76,6 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
     }
   }, [dispatch, repoPath]);
 
-  //
   useEffect(() => {
     if (!repoPath) return;
     if (!todoList || !inProgressList || !doneList) return;
@@ -93,6 +93,9 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
     <Row style={{ boxSizing: "border-box" }} gutter={32}>
       <Col span={8}>
         <div className={style.column}>
+          <Title level={2} className={style.title}>
+            ToDo
+          </Title>
           {todoList && (
             <CardList
               list={todoList}
@@ -104,6 +107,9 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
       </Col>
       <Col span={8}>
         <div className={style.column}>
+          <Title level={2} className={style.title}>
+            In Progress
+          </Title>
           {inProgressList && (
             <CardList
               list={inProgressList}
@@ -115,6 +121,9 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
       </Col>
       <Col span={8}>
         <div className={style.column}>
+          <Title level={2} className={style.title}>
+            Done
+          </Title>
           {doneList && (
             <CardList
               list={doneList}
@@ -129,8 +138,3 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
 };
 
 export default KanbanBoard;
-
-// after first render
-// look at storage
-//      - if there is a lists -> hydrate by storage
-//      - if no -> hydrate by api

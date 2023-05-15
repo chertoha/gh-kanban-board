@@ -4,10 +4,9 @@ import KanbanBoard from "components/KanbanBoard";
 import SearchBar from "components/SearchBar";
 import { FC, useEffect, useState } from "react";
 import { StorageService } from "services/StorageService";
+import { SEARCH_STORAGE_KEY, SEARCH_URL_BASE_PREFIX } from "utils/constants";
 
-const storage = new StorageService<string>("kanban_search");
-
-const SEARCH_URL_BASE_PREFIX = "https://github.com/";
+const storage = new StorageService<string>(SEARCH_STORAGE_KEY);
 
 const Home: FC = () => {
   const [searchValue, setSearch] = useState(() => storage.get() || "");
@@ -23,11 +22,13 @@ const Home: FC = () => {
   const repoPath = parseSearchValue(searchValue);
 
   return (
-    <main>
+    <main
+      style={{ boxSizing: "border-box", paddingTop: "50px", height: "100vh" }}
+    >
       <h1 hidden>Github issues kanban board</h1>
 
       <Row justify="center">
-        <Col span="16">
+        <Col span={20}>
           <SearchBar onSearch={setSearch} value={searchValue} />
           <InfoBar repoPath={repoPath} />
           <KanbanBoard repoPath={repoPath} />

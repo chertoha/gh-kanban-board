@@ -10,12 +10,14 @@ export const useChosenItemStyles = (): ChosenItemStylesHook => {
 
   const apply = (item: HTMLDivElement) => {
     itemRef.current = item;
-    itemRef.current.style.backgroundColor = "#ada89f";
+    // itemRef.current.style.backgroundColor = "#ada89f";
+    itemRef.current.classList.add("dragged");
   };
 
   const remove = () => {
     if (!itemRef.current) return;
-    itemRef.current.style.backgroundColor = "inherit";
+    // itemRef.current.style.backgroundColor = "inherit";
+    itemRef.current.classList.remove("dragged");
     itemRef.current = null;
   };
 

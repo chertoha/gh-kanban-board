@@ -1,9 +1,18 @@
 body {
   margin: 0;
-  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif; */
   font-family: "PT Serif", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.column__item.dragged > .kanbanCard {
+  box-shadow: inset 0px 0px 33px 6px rgba(50, 25, 255, 0.1);
+  transition: transform 150ms ease-in;
+  transform: rotate(-3deg);
+}
+
+.column__item.dragged-over {
+  border-bottom: 10px dotted rgba(50, 25, 255, 0.1) !important;
+  transition: transform 150ms ease-in;
+  transform: rotate(3deg);
 }

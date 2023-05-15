@@ -3,7 +3,7 @@ import CardListZeroItem from "./CardListZeroItem";
 import CardListEmptyItem from "./CardListEmptyItem";
 import { List } from "antd";
 import { FC } from "react";
-import { ICardListProps } from "./types/props";
+import { ICardListProps } from "../../types/props";
 import style from "./CardList.module.css";
 
 const CardList: FC<ICardListProps> = (props) => {

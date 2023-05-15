@@ -2,7 +2,7 @@ import { useAppDispatch } from "hooks/hooks";
 import { DragEvent, FC } from "react";
 import { RiDragDropFill } from "react-icons/ri";
 import { Issue } from "types/types";
-import { ICardListProps } from "./types/props";
+import { ICardListProps } from "../../types/props";
 import { calculateAfterDropLists } from "./utils/calculateAfterDropLists";
 import { itemDragStyles } from "./utils/setItemDragStyles";
 
@@ -42,6 +42,7 @@ const CardListEmptyItem: FC<ICardListProps> = ({
   };
   return (
     <div
+      className="column__item"
       style={{
         height: "100%",
         display: "flex",
