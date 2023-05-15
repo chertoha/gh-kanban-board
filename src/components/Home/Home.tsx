@@ -22,7 +22,9 @@ const Home: FC = () => {
   const repoPath = parseSearchValue(searchValue);
 
   return (
-    <main style={{ paddingTop: "30px" }}>
+    <main
+      style={{ boxSizing: "border-box", paddingTop: "50px", height: "100vh" }}
+    >
       <h1 hidden>Github issues kanban board</h1>
 
       <Row justify="center">

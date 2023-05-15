@@ -1,7 +1,6 @@
 import Paragraph from "antd/es/typography/Paragraph";
-import style from "./KanbanCard.module.css";
 import { FC } from "react";
-import { Card } from "antd";
+import { Card, Space } from "antd";
 import { Issue } from "types/types";
 import { getSpecialDateView } from "utils/getSpecialDateView";
 
@@ -20,12 +19,10 @@ const KanbanCard: FC<IKanbanCardProps> = ({ issue }) => {
 
   return (
     <Card
-      // className={style.kanbanCard}
       className="kanbanCard"
       title={title}
       size="small"
-      headStyle={{ borderBottom: "none" }}
-      // style={{ width: "100%", cursor: "grab", border: "3px solid #000" }}
+      headStyle={{ borderBottom: "none", fontSize: "16px" }}
       style={{
         width: "100%",
         cursor: "grab",
@@ -34,10 +31,16 @@ const KanbanCard: FC<IKanbanCardProps> = ({ issue }) => {
       }}
     >
       <Paragraph>
-        #{number} opened {getSpecialDateView(created_at)}
+        <span style={{ color: "#73d13d" }}>#{number}</span>
+        <span style={{ fontStyle: "italic", marginLeft: "10px" }}>
+          opened {getSpecialDateView(created_at)}
+        </span>
       </Paragraph>
-      <Paragraph>
-        {login} | Comments: {comments}
+      <Paragraph style={{ color: "#8c8c8c" }}>
+        <Space size="small">
+          <span style={{ textDecoration: "underline" }}>{login}</span> |{" "}
+          <span>Comments: {comments}</span>
+        </Space>
       </Paragraph>
     </Card>
   );

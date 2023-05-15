@@ -24,7 +24,7 @@ const SearchBar: FC<ISearchBarProps> = ({ onSearch, value }) => {
   };
 
   return (
-    <section style={{ padding: "40px 0 10px" }}>
+    <section style={{ paddingBottom: "10px" }}>
       <Form
         name="basic"
         initialValues={{ remember: true }}
@@ -72,5 +72,3 @@ const SearchBar: FC<ISearchBarProps> = ({ onSearch, value }) => {
 };
 
 export default SearchBar;
-
-// any type need to be changed
