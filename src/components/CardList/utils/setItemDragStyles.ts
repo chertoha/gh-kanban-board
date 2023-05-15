@@ -8,8 +8,4 @@ export const itemDragStyles = {
   remove: (e: DragEvent<HTMLDivElement>) => {
     e.currentTarget.classList.remove("dragged-over");
   },
-
-  // remove: (target: HTMLDivElement) => {
-  //   target.classList.remove("dragged-over");
-  // },
 };

@@ -1,5 +1,4 @@
 import KanbanCard from "components/KanbanCard";
-import style from "./CardList.module.css";
 import { itemDragStyles } from "./utils/setItemDragStyles";
 import { List } from "antd";
 import { useAppDispatch } from "hooks/hooks";
@@ -63,20 +62,13 @@ const CardListItem: FC<ICardListProps> = ({
   const leaveHandler = (e: DragEvent<HTMLDivElement>) => {
     const cardRect = e.currentTarget.getBoundingClientRect();
     const isMouseOverCard =
-      e.clientX >= cardRect.left + 20 &&
-      e.clientX <= cardRect.right - 20 &&
-      e.clientY >= cardRect.top + 20 &&
-      e.clientY <= cardRect.bottom - 20;
-
+      e.clientX >= cardRect.left + 30 &&
+      e.clientX <= cardRect.right - 30 &&
+      e.clientY >= cardRect.top + 30 &&
+      e.clientY <= cardRect.bottom - 30;
     if (!isMouseOverCard) {
       itemDragStyles.remove(e);
     }
-
-    // if (!isMouseOverCard) {
-    //   setTimeout(() => {
-    //     itemDragStyles.remove(e);
-    //   }, 0);
-    // }
   };
 
   if (!issue) return null;
