@@ -1,4 +1,4 @@
-import { RightOutlined, StarFilled, StarOutlined } from "@ant-design/icons";
+import { RightOutlined, StarFilled } from "@ant-design/icons";
 import { Space } from "antd";
 import Link from "antd/es/typography/Link";
 import { FC, useEffect, useState } from "react";
