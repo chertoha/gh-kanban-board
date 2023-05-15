@@ -63,10 +63,10 @@ const CardListItem: FC<ICardListProps> = ({
   const leaveHandler = (e: DragEvent<HTMLDivElement>) => {
     const cardRect = e.currentTarget.getBoundingClientRect();
     const isMouseOverCard =
-      e.clientX >= cardRect.left + 10 &&
-      e.clientX <= cardRect.right - 10 &&
-      e.clientY >= cardRect.top + 10 &&
-      e.clientY <= cardRect.bottom - 10;
+      e.clientX >= cardRect.left + 20 &&
+      e.clientX <= cardRect.right - 20 &&
+      e.clientY >= cardRect.top + 20 &&
+      e.clientY <= cardRect.bottom - 20;
 
     if (!isMouseOverCard) {
       itemDragStyles.remove(e);
