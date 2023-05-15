@@ -67,9 +67,16 @@ const CardListItem: FC<ICardListProps> = ({
       e.clientX <= cardRect.right - 10 &&
       e.clientY >= cardRect.top + 10 &&
       e.clientY <= cardRect.bottom - 10;
+
     if (!isMouseOverCard) {
       itemDragStyles.remove(e);
     }
+
+    // if (!isMouseOverCard) {
+    //   setTimeout(() => {
+    //     itemDragStyles.remove(e);
+    //   }, 0);
+    // }
   };
 
   if (!issue) return null;

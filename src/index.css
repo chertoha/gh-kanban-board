@@ -7,8 +7,12 @@ body {
 
 .column__item.dragged > .kanbanCard {
   box-shadow: inset 0px 0px 33px 6px rgba(50, 25, 255, 0.1);
+  transition: transform 150ms ease-in;
+  transform: rotate(-3deg);
 }
 
 .column__item.dragged-over {
   border-bottom: 10px dotted rgba(50, 25, 255, 0.1) !important;
+  transition: transform 150ms ease-in;
+  transform: rotate(3deg);
 }

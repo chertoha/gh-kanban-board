@@ -28,7 +28,7 @@ const Home: FC = () => {
       <h1 hidden>Github issues kanban board</h1>
 
       <Row justify="center">
-        <Col span="16">
+        <Col span={20}>
           <SearchBar onSearch={setSearch} value={searchValue} />
           <InfoBar repoPath={repoPath} />
           <KanbanBoard repoPath={repoPath} />
