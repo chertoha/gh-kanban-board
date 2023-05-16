@@ -57,6 +57,7 @@ const SearchBar: FC<ISearchBarProps> = ({ onSearch, value }) => {
           <Col>
             <Form.Item style={{ margin: 0 }}>
               <Button
+                data-testid="search-submit"
                 type="default"
                 htmlType="submit"
                 size="large"
