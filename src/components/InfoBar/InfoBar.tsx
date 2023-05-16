@@ -1,10 +1,10 @@
+import { FC, useEffect, useState } from "react";
 import { RightOutlined, StarFilled } from "@ant-design/icons";
 import { Space } from "antd";
-import Link from "antd/es/typography/Link";
-import { FC, useEffect, useState } from "react";
 import { getRepoInfo } from "services/kanbanDataService";
 import { RepoInfo } from "types/types";
 import { getShortNumberView } from "utils/getShortNumberView";
+import Link from "antd/es/typography/Link";
 
 interface IInfoBar {
   repoPath: string;

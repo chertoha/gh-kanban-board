@@ -47,6 +47,7 @@ const SearchBar: FC<ISearchBarProps> = ({ onSearch, value }) => {
               ]}
             >
               <Input
+                data-testid="search-input"
                 placeholder="Enter repo URL"
                 size="large"
                 style={{ fontSize: "20px", color: "#8c8c8c" }}
