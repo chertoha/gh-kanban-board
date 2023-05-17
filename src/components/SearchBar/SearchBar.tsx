@@ -28,17 +28,12 @@ const SearchBar: FC<ISearchBarProps> = ({ onSearch, value }) => {
     onSearch(repoUrl);
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-
   return (
     <section className={style.searchSection}>
       <Form
         name="basic"
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <Row gutter={16}>
