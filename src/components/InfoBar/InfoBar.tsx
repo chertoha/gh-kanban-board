@@ -1,10 +1,10 @@
-import { RightOutlined, StarFilled, StarOutlined } from "@ant-design/icons";
-import { Space } from "antd";
-import Link from "antd/es/typography/Link";
 import { FC, useEffect, useState } from "react";
+import { RightOutlined, StarFilled } from "@ant-design/icons";
+import { Space } from "antd";
 import { getRepoInfo } from "services/kanbanDataService";
 import { RepoInfo } from "types/types";
 import { getShortNumberView } from "utils/getShortNumberView";
+import Link from "antd/es/typography/Link";
 
 interface IInfoBar {
   repoPath: string;
@@ -40,6 +40,7 @@ const InfoBar: FC<IInfoBar> = ({ repoPath }) => {
       style={{ padding: "10px 0 20px", fontSize: "18px" }}
     >
       <Link
+        data-testid="info-owner"
         href={repoOwnerUrl}
         target="_blank"
         style={{ fontSize: "18px", textTransform: "capitalize" }}
@@ -49,6 +50,7 @@ const InfoBar: FC<IInfoBar> = ({ repoPath }) => {
       <RightOutlined style={{ fontSize: "14px", color: "#0958d9" }} />
 
       <Link
+        data-testid="info-repo"
         href={repoUrl}
         target="_blank"
         style={{ fontSize: "18px", textTransform: "capitalize" }}

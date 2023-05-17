@@ -47,6 +47,7 @@ const SearchBar: FC<ISearchBarProps> = ({ onSearch, value }) => {
               ]}
             >
               <Input
+                data-testid="search-input"
                 placeholder="Enter repo URL"
                 size="large"
                 style={{ fontSize: "20px", color: "#8c8c8c" }}
@@ -56,6 +57,7 @@ const SearchBar: FC<ISearchBarProps> = ({ onSearch, value }) => {
           <Col>
             <Form.Item style={{ margin: 0 }}>
               <Button
+                data-testid="search-submit"
                 type="default"
                 htmlType="submit"
                 size="large"
