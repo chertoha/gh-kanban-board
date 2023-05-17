@@ -1,4 +1,6 @@
+import Title from "antd/es/typography/Title";
 import CardList from "components/CardList";
+import style from "./KanbanBoard.module.css";
 import { Col, Row } from "antd";
 import { useAppDispatch, useAppSelector } from "hooks/hooks";
 import { FC, useEffect, useState } from "react";
@@ -21,10 +23,8 @@ import {
   getInProgressIssues,
   getTodoIssues,
 } from "services/kanbanDataService";
-import style from "./KanbanBoard.module.css";
 import { ListStorageService } from "services/StorageService";
 import { ISSUES_STORAGE_KEY } from "utils/constants";
-import Title from "antd/es/typography/Title";
 
 const storage = new ListStorageService<IKanbanLists>(ISSUES_STORAGE_KEY);
 
@@ -90,7 +90,7 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
   };
 
   return (
-    <Row style={{ boxSizing: "border-box" }} gutter={32}>
+    <Row gutter={32}>
       <Col span={8}>
         <div className={style.column}>
           <Title level={2} className={style.title}>

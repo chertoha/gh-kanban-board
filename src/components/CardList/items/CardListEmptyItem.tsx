@@ -1,12 +1,13 @@
-import { List } from "antd";
 import { useAppDispatch } from "hooks/hooks";
 import { DragEvent, FC } from "react";
+import { RiDragDropFill } from "react-icons/ri";
 import { Issue } from "types/types";
-import { ICardListProps } from "../../types/props";
-import { calculateAfterDropLists } from "./utils/calculateAfterDropLists";
-import { itemDragStyles } from "./utils/setItemDragStyles";
+import { ICardListProps } from "../../../types/props";
+import { calculateAfterDropLists } from "../utils/calculateAfterDropLists";
+import { itemDragStyles } from "../utils/setItemDragStyles";
+import style from "./CardListItem.module.css";
 
-const CardListZeroItem: FC<ICardListProps> = ({
+const CardListEmptyItem: FC<ICardListProps> = ({
   list,
   currentCardState: [currentCard, setCurrentCard],
   currentListState: [{ currentList, updateCurrentList }, setCurrentListState],
@@ -40,11 +41,9 @@ const CardListZeroItem: FC<ICardListProps> = ({
     setCurrentCard(null);
     setCurrentListState({ currentList: null, updateCurrentList: null });
   };
-
   return (
-    <List.Item
-      className="column__item"
-      style={{ border: "none" }}
+    <div
+      className={`column__item ${style.cardListEmptyItem}`}
       draggable={true}
       onDragStart={(e) => {
         e.preventDefault();
@@ -58,8 +57,10 @@ const CardListZeroItem: FC<ICardListProps> = ({
       onDrop={(e) => {
         dropHandler(e, null, list);
       }}
-    ></List.Item>
+    >
+      <RiDragDropFill size={50} />
+    </div>
   );
 };
 
-export default CardListZeroItem;
+export default CardListEmptyItem;

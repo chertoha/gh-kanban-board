@@ -1,0 +1,25 @@
+.infoBar {
+  padding: 10px 0 20px;
+  font-size: 18px;
+}
+
+.link {
+  font-size: 18px;
+  text-transform: capitalize;
+}
+
+.arrowIcon {
+  font-size: 14px;
+  color: #0958d9;
+}
+
+.starsInfo {
+  display: flex;
+  column-gap: 4px;
+  margin-left: 20px;
+}
+
+.starIcon {
+  font-size: 20px;
+  color: #faad14;
+}
