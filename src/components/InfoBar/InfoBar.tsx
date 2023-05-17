@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { Dispatch, FC, useEffect, useState } from "react";
 import { RightOutlined, StarFilled } from "@ant-design/icons";
 import { Space } from "antd";
 import { getRepoInfo } from "services/kanbanDataService";
@@ -9,20 +9,23 @@ import style from "./InfoBar.module.css";
 
 interface IInfoBar {
   repoPath: string;
+  setError: Dispatch<unknown>;
 }
 
-const InfoBar: FC<IInfoBar> = ({ repoPath }) => {
+const InfoBar: FC<IInfoBar> = ({ repoPath, setError }) => {
   const [repoInfo, setRepoInfo] = useState<RepoInfo | null>(null);
 
   useEffect(() => {
     if (!repoPath) return;
 
     getRepoInfo(repoPath)
-      .then(setRepoInfo)
+      .then((res) => {
+        setRepoInfo(res);
+      })
       .catch((err) => {
-        console.log("InfoBBar err", err);
+        setError(err);
       });
-  }, [repoPath]);
+  }, [repoPath, setError]);
 
   if (!repoInfo) {
     return null;
