@@ -1,10 +1,12 @@
-import style from "./SearchBar.module.css";
-import { Button, Col, Form, Input, Row } from "antd";
 import { Dispatch, FC, SetStateAction } from "react";
+import { Button, Col, Form, Input, Row } from "antd";
+
 import {
   SEARCH_VALIDATION_MESSAGE,
   SEARCH_VALIDATION_PATTERN,
 } from "utils/constants";
+
+import style from "./SearchBar.module.css";
 
 type FormValues = {
   repoUrl: string;

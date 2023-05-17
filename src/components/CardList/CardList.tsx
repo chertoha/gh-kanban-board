@@ -1,8 +1,10 @@
-import CardListEmptyItem from "./items/CardListEmptyItem";
-import { List } from "antd";
 import { FC } from "react";
-import { ICardListProps } from "../../types/props";
+import { List } from "antd";
+
+import { ICardListProps } from "types/props";
+
 import style from "./CardList.module.css";
+import CardListEmptyItem from "./items/CardListEmptyItem";
 import CardListZeroItem from "./items/CardListZeroItem";
 import CardListItem from "./items/CardListItem";
 

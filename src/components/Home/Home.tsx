@@ -1,11 +1,13 @@
+import { Col, Row } from "antd";
+import { FC, useEffect, useState } from "react";
+
 import InfoBar from "components/InfoBar/InfoBar";
 import KanbanBoard from "components/KanbanBoard";
 import SearchBar from "components/SearchBar";
 import SearchError from "components/SearchError";
-import { Col, Row } from "antd";
-import { FC, useEffect, useState } from "react";
 import { StorageService } from "services/StorageService";
 import { SEARCH_STORAGE_KEY, SEARCH_URL_BASE_PREFIX } from "utils/constants";
+
 import style from "./Home.module.css";
 
 const storage = new StorageService<string>(SEARCH_STORAGE_KEY);

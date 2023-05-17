@@ -1,15 +1,14 @@
 import Title from "antd/es/typography/Title";
-import CardList from "components/CardList";
-import style from "./KanbanBoard.module.css";
-import { Col, Row } from "antd";
-import { useAppDispatch, useAppSelector } from "hooks/hooks";
 import { Dispatch, FC, useEffect, useState } from "react";
+import { Col, Row } from "antd";
+
+import CardList from "components/CardList";
+import NoSearchedData from "components/NoSearchedData";
 import {
   selectDoneList,
   selectInProgressList,
   selectTodoList,
 } from "redux/issues/selectors";
-import { IKanbanLists, Issue } from "types/types";
 import {
   updateTodoList,
   updateInProgressList,
@@ -17,7 +16,9 @@ import {
   updateAll,
   CommonIssuesActionsCreatorType,
 } from "redux/issues/slice";
+import { useAppDispatch, useAppSelector } from "hooks/hooks";
 import { useChosenItemStyles } from "hooks/useChosenItemStyles";
+import { IKanbanLists, Issue } from "types/types";
 import {
   getDoneIssues,
   getInProgressIssues,
@@ -25,7 +26,8 @@ import {
 } from "services/kanbanDataService";
 import { ListStorageService } from "services/StorageService";
 import { ISSUES_STORAGE_KEY } from "utils/constants";
-import NoSearchedData from "components/NoSearchedData";
+
+import style from "./KanbanBoard.module.css";
 
 const storage = new ListStorageService<IKanbanLists>(ISSUES_STORAGE_KEY);
 

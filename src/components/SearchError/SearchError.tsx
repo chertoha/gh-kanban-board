@@ -1,8 +1,9 @@
 import Paragraph from "antd/es/typography/Paragraph";
-import style from "./SearchError.module.css";
-import { Space } from "antd";
 import { FC } from "react";
 import { AxiosError } from "axios";
+import { Space } from "antd";
+
+import style from "./SearchError.module.css";
 
 interface ISearchErrorProps {
   error: unknown;

@@ -1,7 +1,8 @@
 import Paragraph from "antd/es/typography/Paragraph";
-import style from "./NoSearchedData.module.css";
 import { Space } from "antd";
 import { FC } from "react";
+
+import style from "./NoSearchedData.module.css";
 
 const NoSearchedData: FC = () => {
   return (
