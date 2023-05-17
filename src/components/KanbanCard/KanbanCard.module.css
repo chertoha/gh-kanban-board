@@ -1,0 +1,24 @@
+.card {
+  width: 100%;
+  cursor: grab;
+  border: 1px solid #eeeeee;
+  background-color: #ffffff;
+}
+
+.issueNumber {
+  color: #73d13d;
+  font-weight: 700;
+}
+
+.issueDate {
+  font-style: italic;
+  margin-left: 10px;
+}
+
+.bottomRow {
+  color: #8c8c8c;
+}
+
+.issueOwner {
+  text-decoration: underline;
+}

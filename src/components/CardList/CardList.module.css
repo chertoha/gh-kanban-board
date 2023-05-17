@@ -10,8 +10,6 @@
 }
 
 .column__list::-webkit-scrollbar-thumb {
-  /* background-color: rgb(160, 159, 159); */
-  /* background-color: #455266; */
   background-color: rgba(69, 82, 102, 0.2);
   border-radius: 4px;
 }

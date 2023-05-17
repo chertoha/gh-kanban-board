@@ -1,11 +1,12 @@
 import KanbanCard from "components/KanbanCard";
-import { itemDragStyles } from "./utils/setItemDragStyles";
 import { List } from "antd";
 import { useAppDispatch } from "hooks/hooks";
 import { DragEvent, FC } from "react";
 import { Issue } from "types/types";
-import { ICardListProps } from "../../types/props";
-import { calculateAfterDropLists } from "./utils/calculateAfterDropLists";
+import { itemDragStyles } from "../utils/setItemDragStyles";
+import { ICardListProps } from "types/props";
+import { calculateAfterDropLists } from "../utils/calculateAfterDropLists";
+import style from "./CardListItem.module.css";
 
 const CardListItem: FC<ICardListProps> = ({
   list,

@@ -1,10 +1,10 @@
-import CardListItem from "./CardListItem";
-import CardListZeroItem from "./CardListZeroItem";
-import CardListEmptyItem from "./CardListEmptyItem";
+import CardListEmptyItem from "./items/CardListEmptyItem";
 import { List } from "antd";
 import { FC } from "react";
 import { ICardListProps } from "../../types/props";
 import style from "./CardList.module.css";
+import CardListZeroItem from "./items/CardListZeroItem";
+import CardListItem from "./items/CardListItem";
 
 const CardList: FC<ICardListProps> = (props) => {
   const { list } = props;

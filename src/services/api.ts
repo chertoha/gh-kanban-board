@@ -24,10 +24,10 @@ export const api = {
   },
 
   fetchIssues: async (path: string, params?: object): Promise<Issue[]> => {
-    // const response = await instance.get(`${path}/issues`, { params });
-    const response = await instance.get(`${path}/issues`, {
-      params: { ...params, page: 1, per_page: 4 },
-    });
+    const response = await instance.get(`${path}/issues`, { params });
+    // const response = await instance.get(`${path}/issues`, {
+    //   params: { ...params, page: 1, per_page: 4 },
+    // });
     return response.data;
   },
 };

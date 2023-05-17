@@ -5,6 +5,7 @@ import SearchBar from "components/SearchBar";
 import { FC, useEffect, useState } from "react";
 import { StorageService } from "services/StorageService";
 import { SEARCH_STORAGE_KEY, SEARCH_URL_BASE_PREFIX } from "utils/constants";
+import style from "./Home.module.css";
 
 const storage = new StorageService<string>(SEARCH_STORAGE_KEY);
 
@@ -22,9 +23,7 @@ const Home: FC = () => {
   const repoPath = parseSearchValue(searchValue);
 
   return (
-    <main
-      style={{ boxSizing: "border-box", paddingTop: "50px", height: "100vh" }}
-    >
+    <main className={style.home}>
       <h1 hidden>Github issues kanban board</h1>
 
       <Row justify="center">

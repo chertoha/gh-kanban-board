@@ -1,0 +1,18 @@
+.searchSection {
+  padding-bottom: 10px;
+}
+
+.inputWrapper {
+  margin: 0;
+}
+
+.searchInput {
+  font-size: 20px;
+  color: #8c8c8c;
+}
+
+.searchButton {
+  height: 100% !important;
+  font-size: 20px !important;
+  color: #8c8c8c;
+}

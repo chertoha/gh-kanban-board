@@ -1,3 +1,4 @@
+import style from "./SearchBar.module.css";
 import { Button, Col, Form, Input, Row } from "antd";
 import { Dispatch, FC, SetStateAction } from "react";
 import {
@@ -8,6 +9,14 @@ import {
 type FormValues = {
   repoUrl: string;
 };
+
+const validationRules = [
+  { required: true, message: SEARCH_VALIDATION_MESSAGE.REQUIRED },
+  {
+    pattern: SEARCH_VALIDATION_PATTERN,
+    message: SEARCH_VALIDATION_MESSAGE.MATCH_EXPRESSION,
+  },
+];
 
 interface ISearchBarProps {
   onSearch: Dispatch<SetStateAction<string>>;
@@ -24,7 +33,7 @@ const SearchBar: FC<ISearchBarProps> = ({ onSearch, value }) => {
   };
 
   return (
-    <section style={{ paddingBottom: "10px" }}>
+    <section className={style.searchSection}>
       <Form
         name="basic"
         initialValues={{ remember: true }}
@@ -36,32 +45,26 @@ const SearchBar: FC<ISearchBarProps> = ({ onSearch, value }) => {
           <Col flex="auto">
             <Form.Item
               initialValue={value}
-              style={{ margin: 0 }}
+              className={style.inputWrapper}
               name="repoUrl"
-              rules={[
-                { required: true, message: SEARCH_VALIDATION_MESSAGE.REQUIRED },
-                {
-                  pattern: SEARCH_VALIDATION_PATTERN,
-                  message: SEARCH_VALIDATION_MESSAGE.MATCH_EXPRESSION,
-                },
-              ]}
+              rules={validationRules}
             >
               <Input
                 data-testid="search-input"
                 placeholder="Enter repo URL"
                 size="large"
-                style={{ fontSize: "20px", color: "#8c8c8c" }}
+                className={style.searchInput}
               />
             </Form.Item>
           </Col>
           <Col>
-            <Form.Item style={{ margin: 0 }}>
+            <Form.Item className={style.inputWrapper}>
               <Button
                 data-testid="search-submit"
                 type="default"
                 htmlType="submit"
                 size="large"
-                style={{ fontSize: "20px", height: "100%", color: "#8c8c8c" }}
+                className={style.searchButton}
               >
                 Load issues
               </Button>
