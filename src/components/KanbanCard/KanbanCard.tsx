@@ -1,9 +1,11 @@
 import Paragraph from "antd/es/typography/Paragraph";
-import style from "./KanbanCard.module.css";
 import { FC } from "react";
 import { Card, Space } from "antd";
+
 import { Issue } from "types/types";
 import { getSpecialDateView } from "utils/getSpecialDateView";
+
+import style from "./KanbanCard.module.css";
 
 interface IKanbanCardProps {
   issue: Issue;

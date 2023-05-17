@@ -1,10 +1,12 @@
-import style from "./SearchBar.module.css";
-import { Button, Col, Form, Input, Row } from "antd";
 import { Dispatch, FC, SetStateAction } from "react";
+import { Button, Col, Form, Input, Row } from "antd";
+
 import {
   SEARCH_VALIDATION_MESSAGE,
   SEARCH_VALIDATION_PATTERN,
 } from "utils/constants";
+
+import style from "./SearchBar.module.css";
 
 type FormValues = {
   repoUrl: string;
@@ -28,17 +30,12 @@ const SearchBar: FC<ISearchBarProps> = ({ onSearch, value }) => {
     onSearch(repoUrl);
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-
   return (
     <section className={style.searchSection}>
       <Form
         name="basic"
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <Row gutter={16}>

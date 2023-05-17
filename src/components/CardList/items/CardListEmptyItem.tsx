@@ -1,11 +1,13 @@
-import { useAppDispatch } from "hooks/hooks";
 import { DragEvent, FC } from "react";
 import { RiDragDropFill } from "react-icons/ri";
+
+import { useAppDispatch } from "hooks/hooks";
 import { Issue } from "types/types";
-import { ICardListProps } from "../../../types/props";
+import { ICardListProps } from "types/props";
+
+import style from "./CardListItem.module.css";
 import { calculateAfterDropLists } from "../utils/calculateAfterDropLists";
 import { itemDragStyles } from "../utils/setItemDragStyles";
-import style from "./CardListItem.module.css";
 
 const CardListEmptyItem: FC<ICardListProps> = ({
   list,

@@ -1,15 +1,14 @@
 import Title from "antd/es/typography/Title";
-import CardList from "components/CardList";
-import style from "./KanbanBoard.module.css";
+import { Dispatch, FC, useEffect, useState } from "react";
 import { Col, Row } from "antd";
-import { useAppDispatch, useAppSelector } from "hooks/hooks";
-import { FC, useEffect, useState } from "react";
+
+import CardList from "components/CardList";
+import NoSearchedData from "components/NoSearchedData";
 import {
   selectDoneList,
   selectInProgressList,
   selectTodoList,
 } from "redux/issues/selectors";
-import { IKanbanLists, Issue } from "types/types";
 import {
   updateTodoList,
   updateInProgressList,
@@ -17,7 +16,9 @@ import {
   updateAll,
   CommonIssuesActionsCreatorType,
 } from "redux/issues/slice";
+import { useAppDispatch, useAppSelector } from "hooks/hooks";
 import { useChosenItemStyles } from "hooks/useChosenItemStyles";
+import { IKanbanLists, Issue } from "types/types";
 import {
   getDoneIssues,
   getInProgressIssues,
@@ -25,6 +26,8 @@ import {
 } from "services/kanbanDataService";
 import { ListStorageService } from "services/StorageService";
 import { ISSUES_STORAGE_KEY } from "utils/constants";
+
+import style from "./KanbanBoard.module.css";
 
 const storage = new ListStorageService<IKanbanLists>(ISSUES_STORAGE_KEY);
 
@@ -35,9 +38,10 @@ export interface ICurrentListState {
 
 interface IKanbanBoard {
   repoPath: string;
+  setError: Dispatch<unknown>;
 }
 
-const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
+const KanbanBoard: FC<IKanbanBoard> = ({ repoPath, setError }) => {
   const dispatch = useAppDispatch();
 
   const todoList: Issue[] | null = useAppSelector(selectTodoList);
@@ -61,23 +65,27 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
       return;
     }
 
+    const updateAllLists = async () => {
+      const toDo = await getTodoIssues(repoPath);
+      dispatch(updateTodoList(toDo));
+
+      const inProgress = await getInProgressIssues(repoPath);
+      dispatch(updateInProgressList(inProgress));
+
+      const done = await getDoneIssues(repoPath);
+      dispatch(updateDoneList(done));
+    };
+
     try {
-      getTodoIssues(repoPath).then((res) => {
-        dispatch(updateTodoList(res));
-      });
-      getInProgressIssues(repoPath).then((res) => {
-        dispatch(updateInProgressList(res));
-      });
-      getDoneIssues(repoPath).then((res) => {
-        dispatch(updateDoneList(res));
-      });
+      updateAllLists();
     } catch (err) {
-      console.log(err);
+      setError(err);
     }
-  }, [dispatch, repoPath]);
+  }, [dispatch, repoPath, setError]);
 
   useEffect(() => {
     if (!repoPath) return;
+
     if (!todoList || !inProgressList || !doneList) return;
     const issues: IKanbanLists = { todoList, inProgressList, doneList };
     storage.set(repoPath, issues);
@@ -88,6 +96,10 @@ const KanbanBoard: FC<IKanbanBoard> = ({ repoPath }) => {
     currentListState,
     chosenItemStyles,
   };
+
+  if (!repoPath) {
+    return <NoSearchedData />;
+  }
 
   return (
     <Row gutter={32}>

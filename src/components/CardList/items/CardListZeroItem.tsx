@@ -1,8 +1,10 @@
-import { List } from "antd";
-import { useAppDispatch } from "hooks/hooks";
 import { DragEvent, FC } from "react";
+import { List } from "antd";
+
+import { useAppDispatch } from "hooks/hooks";
 import { ICardListProps } from "types/props";
 import { Issue } from "types/types";
+
 import { calculateAfterDropLists } from "../utils/calculateAfterDropLists";
 import { itemDragStyles } from "../utils/setItemDragStyles";
 
